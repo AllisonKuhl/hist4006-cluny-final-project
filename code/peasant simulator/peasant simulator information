@@ -1,0 +1,16 @@
+So this is a quick simulation I made in order to test and practise some things.
+I didn't do any research or anything so it's probably not very... historical I guess?
+
+But mainly I just wanted to experiment with coding a simple game in python, as well as using some things I haven't used before (objects, mainly).
+I also wanted to try out random events, since I think I'll be using that a lot in my game. 
+I'm not entirely happy with how I did it in this game - it looks kinda messy and inefficient, but hopefully I can finetune it later on. 
+
+Anyway I encourage you all to take a look at the source code even if you can't understand everything. 
+I tried to comment it in order to make things clearer but I'm not sure if it's helpful. 
+If you have any questions about what things do, let me know. 
+Basically, the game lets you grow three arbitrary types of plants
+(only differences is grow time and final harvest, which again are completely arbitrary)
+and it will grow well or not depending on the weather. 
+
+Let me know if you have any suggestions to make it better. 
+I don't know if I'll include this in the final game, it was more just to try things out. 
