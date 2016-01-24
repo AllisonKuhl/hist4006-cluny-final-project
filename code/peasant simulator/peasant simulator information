@@ -8,9 +8,15 @@ I'm not entirely happy with how I did it in this game - it looks kinda messy and
 Anyway I encourage you all to take a look at the source code even if you can't understand everything. 
 I tried to comment it in order to make things clearer but I'm not sure if it's helpful. 
 If you have any questions about what things do, let me know. 
-Basically, the game lets you grow three arbitrary types of plants
+Basically, the game lets you grow three arbitrary varieties of plants
 (only differences is grow time and final harvest, which again are completely arbitrary)
 and it will grow well or not depending on the weather. 
+Sometimes random events will happen.
+Your goal is to get enough food to survive the winter! 
 
 Let me know if you have any suggestions to make it better. 
 I don't know if I'll include this in the final game, it was more just to try things out. 
+
+In order to play, just download the source file. 
+Then as long as you have python installed on your computer, you should just be able to click on the file and it will run. 
+I think.
