@@ -8,4 +8,4 @@ Now that I have a new project, I want to try again and do it properly.
 So this time I'm going to try my hardest. Give it your all! Never give up! Effort to the max! My goal is nationals! (I've been reading a lot of sports manga lately). Ganbarimasu~!
 Okay, now that that's out of my system, let's get down to business. 
 I am currently taking a fourth year seminar on the Abbey of Cluny. This is where I will be posting everything related to my final project which, simply put, is going to be a video game about Cluny! 
-At the very least, I hope to post weekly updates on my progess, as well as include my current plans and outlines for the games for everyone to discuss. Any code will be added here as well. I encourage everyone to help contribute~~. Let's work hard together~~!
+At the very least, I hope to post weekly updates on my progess, as well as include my current plans and outlines for the games for everyone to discuss. Any code will be added here as well. I encourage everyone to help contribute~. Let's work hard together~~!
