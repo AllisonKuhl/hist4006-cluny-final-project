@@ -1,4 +1,5 @@
 from random import randint #allows random variables
+from random import randint #allows random variables
 
 #this is essentially your 'field' where you grow stuff. 0 means the plot is empty.
 plots = [0,0,0,0]
@@ -153,21 +154,22 @@ def main():
 					
 				if plots[i] != 0:  #checks to see if a plant is there.
 					#if there is...
-					i.grow(weather, drought, rain) #we call the "grow function" that makes it grow
-					growth = i.get_growth() #use getter function because growth is a private variable
+					plots[i].grow(weather, drought, rain) 
+					#we call the "grow function" that makes it grow
+					growth = plots[i].get_growth() #use getter function because growth is a private variable
 					if damage == True: #from above... this is when knights attack your field
-						i.decrease_total_harvest(5) #it decreases your total harvest.
+						plots[i].decrease_total_harvest(5) #it decreases your total harvest.
 					
 					
 				
 				#checks to make sure your plants still exist. If it doesn't, then we reset the plot.
-				if i.get_total_harvest() == 0:
-					print("Uh-oh! Looks like your", i.get_type(), "was destroyed!")
-					plot[i] = 0
+				if plots[i].get_total_harvest() == 0:
+					print("Uh-oh! Looks like your", plots[i].get_type(), "was destroyed!")
+					plots[i] = 0
 				
 				
 				#checks if it's finished growing, and if it is you can harvest it.
-				if work == False: #can't harvest if you are working on lord's land
+				if work == False and plots[i] != 0: #can't harvest if you are working on lord's land 
 					if plots[i].check_if_grown() == True:
 						name = plots[i].get_type()
 						print("Your ", name, "is ready to harvest.")
@@ -267,31 +269,6 @@ def weather_message(weather, rain, drought, damage):
 	if weather == "violent storm":
 		print("Uh oh! The storm has damaged your crops!")
 
-
-#this didn't work for some reason....		
-'''	
-def harvest(plots, total_harvest):
-	for i in range(len(plots)):
-		if plots[i].check_if_grown() == True:
-			name = plots[i].get_type()
-			print("Your ", name, "is ready to harvest.")
-			next = input("Press enter to harvest.")
-			harvest = int(plots[i].get_total_harvest())
-			print(harvest)
-			total_harvest = harvest + total_harvest #adds harvest from plant to running total
-			print("You got", harvest, name +"s!")
-			plots[i] = 0  #resets plot
-			return total_harvest
-'''
-			
-			
-			
-
-
 	
 main()	
-	
-	
-
-	
 		
