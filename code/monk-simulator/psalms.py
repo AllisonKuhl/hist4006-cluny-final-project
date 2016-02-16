@@ -32,10 +32,6 @@ def getPsalms():  #function that gets a list of all the psalms. You must have a 
 	return psalms #returns list of all psalms.
 	
 	
-	
-
-	
-
 def say_psalms(number,boolPrompt, psalmsArray): #arguments: number of psalms, whether you want a prompt, and the array with all the psalms
 
 	print("Please say psalm number", str(number) + ".\n")
