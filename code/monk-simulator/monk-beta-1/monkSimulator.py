@@ -16,7 +16,7 @@ TO-DO
 
 '''
 
-
+#note: main loop of game begins on line 179
 
 #Time variables
 DAYS_IN_YEAR = 12  #how many days in a year??
@@ -155,12 +155,27 @@ prompt = True
 you = Player("Hugh") #creates a player object called "Hugh"
 time = Time()
 
+	
+def getRule():
+
+	ruletxt = open('rule2.txt', 'r')
+	
+	rule = []
+
+	for line in ruletxt:
+			rule.append(line)
+
+	ruletxt.close()
+
+
+	return rule
 
 prayers = {'go to nocturnes': 'nocturne', 'go to matins': 'matins', 'go to prime':'prime', 'go to terce': 'terce', 'go to sext':'sext', 'go to nones': 'nones', 'go to vespers': 'vespers', 'go to compline': 'compline'}
 
 psalmsList = psalms.getPsalms() #gets a list of all the psalms
-ruleExcerpts = getRule.getRule() #gets a list that holds excerpts from the Rule of Benedict
+ruleExcerpts = getRule() #gets a list that holds excerpts from the Rule of Benedict
 
+#main part of game
 while you.alive == True:
 	
 	time.printDate()
