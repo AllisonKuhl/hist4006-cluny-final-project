@@ -1,0 +1,1 @@
+This is the first draft of my game. Right now it is very simple and a little messy and hopefully not at all like what the final version will be! To try it, you must have python 3.4 or higher installed on your computer and all the files in this folder in the same directory. 
