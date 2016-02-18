@@ -38,7 +38,7 @@ VERSES_SAID = 5 # how many verses of the psalms should we say?
 
 
 #daily schedule, feel free to change things around!
-#DAY_ACTIVITIES = ['wake up', 'go to nocturnes', 'read', 'go to matins', 'sleep', 'go to prime', 'read', 'go to terce', 'go to chapter meeting', 'do work', 'go to sext', 'go to nones', 'go to dinner', 'take siesta', 'read', 'go to vespers', 'go to compline', 'sleep']
+DAY_ACTIVITIES = ['wake up', 'go to nocturnes', 'read', 'go to matins', 'sleep', 'go to prime', 'read', 'go to terce', 'go to chapter meeting', 'do work', 'go to sext', 'go to nones', 'go to dinner', 'take siesta', 'read', 'go to vespers', 'go to compline', 'sleep']
 
 
 #which psalm is said during which hour. 
