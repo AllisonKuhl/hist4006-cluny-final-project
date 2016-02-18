@@ -12,7 +12,7 @@ TO-DO
 - add feast days and seasonal liturgy
 - Add ways to decrease penance (like if you do prayers all correctly?)
 - option to save or load game
-- lots more stuff probably
+- loads more stuff probably
 
 '''
 
@@ -43,11 +43,6 @@ VERSES_SAID = 5 # how many verses of the psalms should we say?
 
 #which psalm is said during which hour. 
 PSALMS_SAID = {'nocturne': 121, 'matins': 31, 'prime': 6, 'terce': 56, 'sext': 101, 'nones': 129, 'vespers': 142, 'compline': 69}
-
-
-#for testing purposes... please ignore!!!
-DAY_ACTIVITIES = ["wake up", "read", "sleep"]
-
 
 
 #This section here controls time
