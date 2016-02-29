@@ -1,5 +1,5 @@
 from random import randint
-#from monk2 import Player
+
 # chances of monks talking  is .... 20%
 
 #you = Player("Hugh")
@@ -21,12 +21,12 @@ def normalRandomEvents(player):
 
 
 
-def nightRandomEvents(player):
+def nightRandomEvents(player, ghost):
 
 	randInt = randint(1,100)
 	
 	if randInt < 20:
-		vision(player)
+		vision(ghost)
 	elif randInt < 40:
 		nightDemons(player)
 
@@ -90,7 +90,7 @@ def talk(player):
 
 def talkToMonks(player):
 	
-	
+	killWords = ["kill them", "stab them", "kill monks", "attack monks"]
 
 	print("You hear some monks talking in the hall.")
 	
@@ -107,6 +107,11 @@ def talkToMonks(player):
 	
 	elif action.lower() == "talk to them":
 		talk(player)
+	
+	elif action.lower() in killWords:
+		print("You run at the monks and begin to stab one violently. The other monks grab you and throw you into the dungeon, where you die.")
+		player.increaseSins(100,"murder")
+		player.die()
 
 	else:
 		print("You ignore the monks who are talking and continue on your business.")
@@ -117,9 +122,9 @@ def demonApparation(player):
 
 	demons = ["a giant beast, with jowls dripping wet with saliva exposing teeth sharp as swords, with great hairy legs as big as logs.", "a short deformed being, like a human but not quite, with dark skin and a horribly ugly face.", "some kind of giant black bird, hovering above you glaring at you with burning red eyes.", "a dark swarthy being with horns on his head and slitted eyes."]
 
-	rand = randint(0,len(demons))
+	rand = randint(0,len(demons)-1)
 	
-	print("As you are walking through the halls of an abbey, suddeny you see a demon appearing in front of you! It looks like", demons[rand])
+	print("As you are walking through the halls of an abbey, suddenly you see a demon appearing in front of you! It looks like", demons[rand])
 	
 	#print("What do you do?")
 	
@@ -167,21 +172,17 @@ def nightDemons(player):
 	
 	possibilities = ["Suddenly, the beds start shaking and blankets begin to rise into the air as if by an invisible force.", "A giant crow flies over your bed and begins discussing its misdeeds to another fearsome demon.", "You see a shadow in the hall outside of the dormitory. As you watch, a long procession of demons march by as if doing some twisted anti-liturgy. But due to the holiness of the abbey, they are unable to come and harrass the monks."]
 	
-	rand = randint(0, len(possibilities))
+	rand = randint(0, len(possibilities)-1)
 	
 	print(possibilities[rand])
 	
 	
-def vision(player):
+def vision(ghost):
 	
-	names = ["Adelmus", "Ethelbert", "Drogo", "Einhard"]
-	rand = randint(0,len(names))
+	if ghost.inHeaven == True:
+		ghost = Ghost()
+		
 	print("While sleeping, you have a strange dream....")
-	print("\n A ghostly figure appears in front of you and begins to speak.")
-	print('"My name is', names[rand], ' and I was once a powerful lord. My power was such that I did whatever was right in my own eyes and stole from the innocent and ravaged the helpless. Alas, too late did I realize my great sins. At the end of my life I put on the habit and become a monk at this very monastary, and because of this I was spared the eternal torment."')
-	print('"However, due to my great sins I have not been able to enter paradise. I entreat you, brother, to have mercy on one who is wretched and tell the abbot to pray for my soul. Only through your prayers will I be able to be saved."')
-	print("This said, the figure disappears.")
-	
+	print("A ghostly figure appears in front of you and begins to speak.\n")
+	ghost.display_message()
 
-
-	
