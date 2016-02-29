@@ -1,4 +1,10 @@
+'''
+To - DO
 
+decrease sins when you mess up
+keep track of how many mistakes. 
+
+'''
 def getPsalms():  #function that gets a list of all the psalms. You must have a text file of all the psalms in the same directory for it to work however.
 
 	psalms = [] #array that holds an array of each psalm
@@ -29,23 +35,26 @@ def getPsalms():  #function that gets a list of all the psalms. You must have a 
 	
 	
 	
-def getUserInput(line, boolPrompt):
+def getUserInput(line, boolPrompt, mistakes):
 
 	if boolPrompt == True:
-			print("\n",line)
+		print("\n",line)
 			
-	while True:
-		yourLine = input("\n> ")
+	yourLine = input("\n> ")
 
-		if yourLine == line:
-			break
-		else:
+	if yourLine != line:
+		print("\nYou made a mistake! The correct line is:")
+		print("\n",line)
+		mistakes += 1
 		
-			print("You made a mistake! The correct line is:")
-			print("\n",line)
+	
+		
 	
 
-def say_psalms(number,boolPrompt, psalmsArray, howManyVerses):
+
+def say_psalms(number, player, psalmsArray, howManyVerses):
+
+	mistakes = 0
 
 	print("Please say psalm number", str(number) + ".\n")
 
@@ -53,13 +62,45 @@ def say_psalms(number,boolPrompt, psalmsArray, howManyVerses):
 	
 		line = psalmsArray[number][i]
 		
-		getUserInput(line, boolPrompt)
+		
+		if player.prompt == True:
+			print("\n",line)
+			
+		yourLine = input("\n> ")
+
+		if yourLine != line:
+			print("\nYou made a mistake! The correct line is:")
+			print("\n",line)
+			mistakes += 1
+			
+		
 		
 	print("......\n....")
 	
 	line = psalmsArray[number][-1]
 	
-	getUserInput(line, boolPrompt)
+	if player.prompt == True:
+			print("\n",line)
+			
+	yourLine = input("\n> ")
+
+	if yourLine != line:
+		print("\nYou made a mistake! The correct line is:")
+		print("\n",line)
+		mistakes += 1
+	
+
+	print("\n")
+	
+	if mistakes > 0:
+		print("You made", mistakes, "mistakes while saying the psalms!")
+		player.increaseSins(mistakes, "saying the psalms incorrectly")
+	else:
+		print("Wow! You said it perfectly! Flawless victory!\n")
+		player.decreasePenance(5)
+				
+				
+				
 				
 				
 def main():	
