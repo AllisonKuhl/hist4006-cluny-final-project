@@ -1,22 +1,24 @@
+from random import randint
 import psalms
 import getRule
-from random import randint
+import randomEvents
 
 '''
 TO-DO
 
-- Random events
-- cleaner code
-- more liturgy (store each in object?)
+- more random events
+ -add romance
+- more liturgy 
 - fine-tune dates
 - add feast days and seasonal liturgy
-- Add ways to decrease penance (like if you do prayers all correctly?)
+- Add more ways to decrease penance (like if you do prayers all correctly?)
 - option to save or load game
-- loads more stuff probably
+- romance subplots
+- lots more stuff probably
 
 '''
 
-#note: main loop of game begins on line 179
+
 
 #Time variables
 DAYS_IN_YEAR = 12  #how many days in a year??
@@ -34,15 +36,20 @@ CHRISTMAS = 11   #when is Christmas?
 SEASONS = {0:'winter', LENT_START: 'lent', LENT_START+LENGTH_LENT:'easter', LENT_START+LENGTH_LENT+1:'summer', AUTUMN_STARTS:'autumn', CHRISTMAS: 'christmas'}
 
 #other variables
-VERSES_SAID = 5 # how many verses of the psalms should we say?
+VERSES_SAID = 3 # how many verses of the psalms should we say?
 
 
 #daily schedule, feel free to change things around!
-DAY_ACTIVITIES = ['wake up', 'go to nocturnes', 'read', 'go to matins', 'sleep', 'go to prime', 'read', 'go to terce', 'go to chapter meeting', 'do work', 'go to sext', 'go to nones', 'go to dinner', 'take siesta', 'read', 'go to vespers', 'go to compline', 'sleep']
+DAY_ACTIVITIES = ['wake up', 'go to nocturnes', 'have free time', 'go to matins', 'sleep', 'go to prime', 'have free time', 'go to terce', 'go to chapter meeting', 'do work', 'go to sext', 'go to nones', 'go to dinner', 'take siesta', 'have free time', 'go to vespers', 'go to compline', 'sleep']
 
 
 #which psalm is said during which hour. 
-PSALMS_SAID = {'nocturne': 121, 'matins': 31, 'prime': 6, 'terce': 56, 'sext': 101, 'nones': 129, 'vespers': 142, 'compline': 69}
+PSALMS_SAID = {'nocturnes': 121, 'matins': 31, 'prime': 6, 'terce': 56, 'sext': 101, 'nones': 129, 'vespers': 142, 'compline': 69}
+
+
+#for testing purposes... please ignore!!!
+#DAY_ACTIVITIES = ["wake up", "read", "sleep"]
+
 
 
 #This section here controls time
@@ -60,7 +67,7 @@ class Time:
 		self.__currentSeason = "winter"
 		self.__totalDays = 0
 		self.__daysOfYear = 0
-		
+
 		
 	def newYear(self, playerObj):
 		#resets the time when a new year begins
@@ -93,21 +100,36 @@ class Time:
 #this is you	
 class Player:
 	def __init__(self, name):
-		self.name = name
+		self.__name = name
 		self.__sins = 0
 		self.__sinsList = []
 		self.__penance = 0
 		self.__age = 20
+		self.__health = 20
+		self.__popularity = 0
+		self.sleepiness = 0
 		self.__lifespan =  25 #randint(30,80) but 25 for testing purposes
 		self.alive = True #right now you are alive
+		self.holiness = 0
+		self.prompt = True
+		
+	def getName(self):
+		return self.__name
 	
 	def setSins(self,sins):
 		self.__sins = sins
 		
+	def addHealth(self, num):
+		self.__health += num
+		
+	def addPopularity(self, num):
+		self.__popularity += num
+	
 	
 	def increaseSins(self, sins, sinName):
 			self.__sins += sins
-			self.__sinsList.append(sinName)
+			if sinName not in self.__sinsList:
+				self.__sinsList.append(sinName)
 			print("Your sin has increased by", sins, "for:", sinName + ".")
 			print("You currently have",  self.__sins, "sins.")
 	
@@ -131,7 +153,7 @@ class Player:
 		else:
 			print("But you haven't done that!")
 	
-	def getHintSins():
+	def getHintSins(self):
 		print("Have you forgotten the time you did this:", self.__sinsList[0] + "?")
 		
 		
@@ -145,129 +167,271 @@ class Player:
 		return self.__age
 		
 		
-prompt = True
+	def decreasePenance(self, penance):
+		if self.__penance > 0:
+			print("Your penance decreases by", penance + ".")
+			self.__penance -= penance
+			self.holiness += penance/2
+		elif self.__penance <= 0:
+			self.holiness += penance
+			
+		
+	def increaseHoliness(self, num):
+		self.holiness += num
 
-you = Player("Hugh") #creates a player object called "Hugh"
-time = Time()
-
-	
-def getRule():
-
-	ruletxt = open('rule2.txt', 'r')
-	
-	rule = []
-
-	for line in ruletxt:
-			rule.append(line)
-
-	ruletxt.close()
-
-
-	return rule
-
-prayers = {'go to nocturnes': 'nocturne', 'go to matins': 'matins', 'go to prime':'prime', 'go to terce': 'terce', 'go to sext':'sext', 'go to nones': 'nones', 'go to vespers': 'vespers', 'go to compline': 'compline'}
-
-psalmsList = psalms.getPsalms() #gets a list of all the psalms
-ruleExcerpts = getRule() #gets a list that holds excerpts from the Rule of Benedict
-
-#main part of game
-while you.alive == True:
-	
-	time.printDate()
-	
-	for event in DAY_ACTIVITIES:
-
-		print("\nThe bell rings.")
-		print("DONG!", chr(7))
+	def changeSleepiness(self, num):
+		if num < 0:
+			if self.sleepiness > 0:
+				self.sleepiness += num
+		else:
+			self.sleepiness += num
 		
 		
+
+class Activity():
+	def __init__(self,name, location):
+		self.__name = name
+		self.__correctAction = "go to " + name
+		self.location = location
+
+	
+	def go_to(self, playerObject):
+	
+		if playerObject.prompt == True:
+			print("Now it is time to", self.__correctAction)
+	
 		while True:
-		
-			if prompt == True:
-				print("\nIt is time to", event + ".")
-			
-			action = input("\n> ")
-			
-			if action == event:
-				print("You", event + ".\n")
+			user_input = input("> ")
+			if user_input == self.__correctAction:
+				print("You", self.__correctAction + ".")
 				break
 			else:
-				print("You aren't supposed to do that right now!")
-				if prompt == True:
-					print("You need to say:", event + ".")
-				you.increaseSins(1, 'incorrect activity')
+			
+			#else if in....good action list, do correct response, etc.....
+				print("Now's not the time for that!")
+				playerObject.increaseSins(1, 'incorrect action')
 				
+				
+	def do_action(self, player):
+		print("You are in the", self.location + ".")
+			
+	def getName(self):
+		return self.__name
 		
-		if event in prayers:
-			#print("This is a prayer.")
-			whichHour = prayers[action]
-			psalmNum = PSALMS_SAID[whichHour]
-			psalms.say_psalms(psalmNum, prompt, psalmsList, VERSES_SAID)
-			
+	def random_events(self, player):
+		randomEvents.normalRandomEvents(player)
+
+	
+				
+class Prayer(Activity):
+	def __init__(self, name, psalmNumber):
+		Activity.__init__(self, name, "church")
+		self.__psalmNumber = psalmNumber
+		#self.__psalms = psalms
 		
+	def setPsalmNumber(self, newNumber):
+		self.__psalmNumber = newNumber
+		
+	def do_action(self, player):
+		print("You arrive in the chapel and prepare to say the liturgy.")
+		psalms.say_psalms(self.__psalmNumber, player, psalmsList, VERSES_SAID)
+
+		
+
+class FreeTime(Activity):  #needs editing!!!
+	def __init__(self):
+		Activity.__init__(self, "free time", "dormitory")
+		self.action = "read"
+	
+	def go_to(self, playerObject):
+	
+		if playerObject.prompt == True:
+			print("You have free time now! What would you like to do?")
+			print("1. Read")
+			print("2. Work")
+			print("3. Sleep")
+			print("4. Chat with other monks.")
+		
+		user_input = input("> ")	
+	
+		if user_input == "go read":
+			print("You go study scripture.")
+			PlayerObject.decreasePenance(1)
+		elif user_input == "go work":
+			print("You go help the monks work.")
+			playerObject.decreasePenance(1)
+		else:
+			print("Now's not the time to do that!")
+			playerObject.increaseSins(1, "incorrect activity")
+	
+
+	
+class Sleep(Activity):
+		def __init__(self):
+			Activity.__init__(self, "sleep", "dormitory")
+			self.asleep = False
 			
-		if event == "go to dinner":
-			print("It is time to eat!")
-			print("While you eat, somebody reads.")
-			randInt = randint(0,len(ruleExcerpts)-1)
-			print("\n",ruleExcerpts[randInt], ruleExcerpts[randInt+1], ruleExcerpts[randInt+2])
+		def go_to(self, player):
+			if player.prompt == True:
+				print("Now it is time to sleep.")
+				print("Do you sleep, or stay up praying instead?")
+				
+			while True:
 			
-			action = input("> ")
+				user_input = input("> ")
+				
+				if user_input == "sleep":
+					print("You go to sleep.")
+					player.changeSleepiness(-1)
+					self.asleep = True
+					break
+					
+				elif user_input == "pray":
+					print("You stay up praying instead.")
+					player.decreasePenance(10)
+					player.changeSleepines(1)
+					self.asleep = False
+					break
+				else:
+					print("I don't understand that.")
+					
+		def do_action(self, player):
+			if self.asleep == True:
+				print("\nThe bell rings.")
+				print("DONG!", chr(7))
+				print("It's time to wake up! Wake up, O sleeper, arise!")
+				
+				while True:
+					user_input = input("> ")
+					
+					if user_input == "wake up":
+						if player.sleepiness > 3:
+							print("You try and wake up, but you're too tired. Before you know it, you're drifting off to sleep.")
+							player.increaseSins(5, "laziness")
+						else:
+							print("You wake up feeling refreshed.")
+						break
+						
+					elif user_input == "sleep more":
+						print("You sleep some more.")
+						player.increaseSins(5, "laziness")
+						break
+		def random_events(self, player):
+			randomEvents.nightRandomEvents(player)
+					
+
+class ChapterMeeting(Activity):
+	def __init__(self):
+			Activity.__init__(self, "chapter meeting", "chaptorium") #or wherever chapter meetings took place????
+					
 			
-			if action != "listen":
+	def do_action(self, player):
+	
+		print("\n Do you have any sins to confess? y or n")
+		
+		while True:
+			userInput = input("> ").lower()
+			
+			if userInput == 'y':
+				break 
+			elif userInput == 'n':
+				if you.getSins() == 0:
+					break
+				else:
+					print("I don't think that's the case... But okay...")
+					break		
+			else:
+				print("I don't understand that! Please type either y or n")
+					
+		if userInput == "y":
+			
+			while you.getSinsListLength() > 0:
+				sin = input("What sins do you have to confess? \n > ")
+				
+				if you.prompt == True:
+					print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
+				you.confessSin(sin)				
+				if you.getSinsListLength() == 0:
+					print("You have no more sins to confess!")				
+				if sin == 'exit':
+					break
+				
+				if sin == "hint" and you.prompt == True:
+					you.getHintSins()
+						
+
+class Dinner(Activity):
+	def __init__(self):
+			Activity.__init__(self, "dinner", "refectory") 
+					
+	def do_action(self):
+		print("It is time to eat!")
+		print("While you eat, somebody reads.")
+		randInt = randint(0,len(ruleExcerpts)-1)
+		print("\n",ruleExcerpts[randInt], ruleExcerpts[randInt+1], ruleExcerpts[randInt+2])
+		
+		action = input("> ")
+		
+		if action != "listen" or action != "eat":
+			if action != eat:
 				print("You are supposed to listen!")
 				you.increaseSins(1,"not listening to rule")
-			
-			print("\n",ruleExcerpts[randInt+3], ruleExcerpts[randInt+4], ruleExcerpts[randInt+5])
-			
-			
-		if event == "go to chapter meeting":
-			print("\n Do you have any sins to confess? y or n")
-			
-			while True:
-				userInput = input("> ").lower()
-				
-				if userInput == 'y':
-					break 
-				elif userInput == 'n':
-					if you.getSins() == 0:
-						break
-					else:
-						print("I don't think that's the case... But okay...")
-						break
-						
-				else:
-					print("I don't understand that! Please type either y or n")
-					
-				
-			if userInput == "y":
-				
-				
-				while you.getSinsListLength() > 0:
-					
-					sin = input("What sins do you have to confess?")
-					
-					if prompt == True:
-						print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
-			
-					you.confessSin(sin)
-					
-					if you.getSinsListLength() == 0:
-						print("You have no more sins to confess!")
-						
-					if sin == 'exit':
-						break
-					
-					if sin == "hint" and prompt == True:
-						you.getHintSins()
-						
-			
-			
-	time.dayEnd(you) 
+		
+		print("\n",ruleExcerpts[randInt+3], ruleExcerpts[randInt+4], ruleExcerpts[randInt+5])
 	
-		
-		
-print("You are dead!")
 
-next = input("That's all for now folks!")
+				
+	
+psalmsList = psalms.getPsalms()
+
+			
+
+		
+#you = Player("Hugh")
+
+
+sleep = Sleep()
+freeTime = FreeTime()
+chapterMeeting = ChapterMeeting()
+dinner = Dinner()
+
+
+
+nocturnes = Prayer("nocturnes", PSALMS_SAID["nocturnes"])
+matins = Prayer("matins", PSALMS_SAID["matins"])
+prime = Prayer("prime", PSALMS_SAID["prime"])
+terce = Prayer("terce", PSALMS_SAID["terce"])
+sext = Prayer("sext", PSALMS_SAID["sext"])
+nones = Prayer("nones", PSALMS_SAID['nones'])
+vespers = Prayer("vespers", PSALMS_SAID['vespers'])
+compline = Prayer("compline", PSALMS_SAID['compline'])
+
+
+
+DAY_ACTIVITIES = [nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
+
+time = Time()
+
+name = input("What is your name? \n> ")
+you = Player(name)
+
+print("Welcome", name + "! You are now a monk.")
+
+
+
+while you.alive == True:
+
+	time.printDate()
+	
+	print("A new day begins! Early in the morning, before even the light of day has broken over the fertile plains of Burgundy, the monks of Cluny rise from their slumber to begin their daily rounds of prayer.")
+
+	for activity in DAY_ACTIVITIES:
+		
+		activity.go_to(you)
+		activity.random_events(you)
+		activity.do_action(you)
+		
+	time.dayEnd(you)
+	
+end = input("You are dead. Thanks for playing.")
 
