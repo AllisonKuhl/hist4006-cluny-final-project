@@ -18,8 +18,15 @@ def normalRandomEvents(player):
 	elif randInt < 50:
 		demonAbbot(player)
 	
-
-
+	
+	randInt = randint(1,100)
+	if randInt <= player.getSickliness() * 5:
+		player.changeHealth(True) #makes player sick
+		print("You aren't feeling very well. You decide to spent the rest of the day in the infirmary.")
+		
+	
+	
+	
 
 def nightRandomEvents(player, ghost):
 
@@ -31,58 +38,7 @@ def nightRandomEvents(player, ghost):
 		nightDemons(player)
 
 
-def talk(player):
 
-	gossip = ["...And then I said to him, what, are you serious and I said, ya, I'm serious, and then he said...", "Well, personally I think that the habit DOES make him look fat...", "So my cousin wrote to the me the other day and...", "...twenty oxen, can you believe! TWENTY!"]
-	
-	hello = ["hello", "hi", "hey"]
-	
-	whatsUp = ["what's up?", "how are you?", "what's new", "whats new", "whats up"]
-	
-	replies = ["Is that so?", "Wow, that's really interesting.", "Hm.", "Please tell me more.", "No way!"]
-	
-	reply = replies[randint(0, len(replies)-1)]
-	
-	rand = randint(0,1)
-	
-	print("As you approach the monks you hear them say...")
-
-	if rand == 1: #current events... will be implemented later
-		print("Abbot Hugh is pretty cool isn't he!")
-	else:
-		print(gossip[randint(0, len(gossip)-1)])
-	
-	while True:
-		 
-		speech = input("You say....\n> ")
-		speech = speech.lower()
-		
-		if speech in hello:
-			print('Monk: \n"Hello,', player.getName() + '."')
-			
-		elif speech == "goodbye":
-			print("Monk: \nGoodbye")
-			break
-		
-		elif speech == "tell joke":
-			print("You: \nWhat would you say to a novice who's always complaining about his itchy robe?")
-			print("Monk: \nWhat?")
-			print("You: \nHe has a bad habit!")
-			print("Monk: \n.....")
-			player.decreaseSins(5, "levity")
-			#print("+ 100 sin for bad puns.")
-			
-		elif speech == "talk about God":
-			print("You: \nSo I was thinking about this passage in Revelation the other night...")
-			player.increaseHoliness(1)
-			print("Monk: \n", reply)
-		
-		elif speech in whatsUp:
-			print("Monk: \nI'm good, and you?")
-			
-		else:
-			print("Monk: \n", reply)
-	
 
 
 
@@ -100,22 +56,27 @@ def talkToMonks(player):
 		print("1. Talk to them.")
 		print("2. Ignore them.")
 		
-	action = input("> ")
+	while True:
+		
+		action = input("> ")
 	
-	if action.lower() == "ignore them":
-		print("Good idea!")
-	
-	elif action.lower() == "talk to them":
-		talk(player)
-	
-	elif action.lower() in killWords:
-		print("You run at the monks and begin to stab one violently. The other monks grab you and throw you into the dungeon, where you die.")
-		player.increaseSins(100,"murder")
-		player.die()
+		if action.lower() == "ignore them":
+			print("Good idea!")
+			break
+		
+		elif action.lower() == "talk to them":
+			player.talk()
+			break
+		
+		elif action.lower() in killWords:
+			print("You run at the monks and begin to stab one violently.")
+			player.increaseSins(100,"murder")
+			player.die()
+			break
 
-	else:
-		print("You ignore the monks who are talking and continue on your business.")
-			
+		else:
+			print("I don't understand that!")
+				
 	
 
 def demonApparation(player):
