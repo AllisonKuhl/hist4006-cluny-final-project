@@ -1,18 +1,21 @@
 import player
-import time
+import chronology
 import activities
 
 '''
 TO-DO
 
-- Random events
+- add interaction for demon random event
 - cleaner code
-- more liturgy (store each in object?)
-- fine-tune dates
+- fine-tune dates and schedule
+- add more interactivity for free-time function
+- update dinner activity
 - add feast days and seasonal liturgy
-- Add ways to decrease penance (like if you do prayers all correctly?)
+- Add more ways to decrease penance (like if you do prayers all correctly?)
 - option to save or load game
 - lots more stuff probably
+- romance events
+- special jobs
 
 '''
 
@@ -25,7 +28,7 @@ PSALMS_SAID = {'nocturnes': 121, 'matins': 31, 'prime': 6, 'terce': 56, 'sext': 
 		
 
 		
-#you = Player("Hugh")
+you = player.Player("Hugh")
 
 
 sleep = activities.Sleep()
@@ -47,23 +50,83 @@ compline = activities.Prayer("compline", PSALMS_SAID['compline'])
 
 
 DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
-
-#time = time.Time()
-
-name = input("What is your name? \n> ")
-you = player.Player(name)
-
-print("Welcome", name + "! You are now a monk.")
+#DAY_ACTIVITIES = [dinner, sleep] #for testing
 
 
-sleep.random_events(you)
+time = chronology.Time()
 
+def main():
 
-while you.alive == True:
-
-	#time.printDate()
 	
-	print("A new day begins! Early in the morning, before even the light of day has broken over the fertile plains of Burgundy, the monks of Cluny rise from their slumber to begin their daily rounds of prayer.")
+	
+	name = input("What is your name? \n> ")
+	you = player.Player(name)
+
+	print("Welcome", name + "! You are now a monk.")
+	
+
+	while you.alive == True:
+
+		time.printDate()
+		
+		print("A new day begins! Early in the morning, before even the light of day has broken over the fertile plains of Burgundy, the monks of Cluny rise from their slumber to begin their daily rounds of prayer.")
+
+		if you.isSick() == False:	
+			normal_day(you)
+			you.changeHealth(True)
+		else:
+			sick_day(you)
+		
+		print("day over")
+			
+		#time.dayEnd(you)
+		
+	end = input("You are dead. Thanks for playing.")
+	
+
+	
+def sick_day(player):
+	
+	turns = 0
+	
+	validActions = ['rest','sleep','relax']
+	
+	
+	while player.getSickliness() > 0:
+		print("You are in the infirmirary. You are still feeling a bit sick. You should rest.")
+	
+		while True:
+			action = input("> ")
+			
+			if action in validActions:
+				print("You close your eyes and rest. You can feel yourself getting healthier already.")
+				player.decreaseHealth(-1)
+				break
+			else:
+				print("Now's not the time for that! You need to rest!")
+				
+		print("You wake up feeling refreshed. Someone brings you some food to eat. Wow, it's meat! Should you eat it?")
+		
+		while True:
+			action = input("> ")
+			if action == 'yes':
+				print("You eat the meat. Delicious! You feel healthier already.")
+				player.decreaseHealth(-1)
+				break
+			elif action == 'no':
+				print("You don't eat the meat. That's very holy of you.")
+				player.decreasePenance(1)
+				break
+			else:
+				print("Answer either yes or no!")
+				
+		print("You sleep for the rest of the day.")
+
+	player.changeHealth(False)
+	print("You are feeling a lot better! Tomorrow you can leave the infirmary and resume the regular hours.")
+	
+def normal_day(player):
+
 
 	for i in range(0,len(DAY_ACTIVITIES)):
 		
@@ -75,17 +138,12 @@ while you.alive == True:
 		else:
 			previous = i-1
 		
-		if DAY_ACTIVITIES[previous].skip == False:
-			activity.go_to(you)
+		if DAY_ACTIVITIES[previous].skip == False and you.isSick() == False:
+			activity.go_to(player)
 			if activity.skip == False:
-				activity.random_events(you)
-				activity.do_action(you)
+				activity.random_events(player)
+				activity.do_action(player)
 			else:
 				activity.skip = True
-		
-	#time.dayEnd(you)
-	
-end = input("You are dead. Thanks for playing.")
 
-
-	
+main()
