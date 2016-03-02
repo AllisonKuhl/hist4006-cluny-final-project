@@ -2,11 +2,12 @@ import psalms
 import getRule
 import randomEvents
 from ghost import Ghost
+from random import randint
 
 #some variables
 VERSES_SAID = 3 # how many verses of the psalms should we say?
 psalmsList = psalms.getPsalms()
-
+ruleExcerpts = getRule.getRule()
 
 ghost = Ghost() #should I put this somewhere else....???
 	
@@ -22,8 +23,7 @@ class Activity():
 	def go_to(self, playerObject):
 	
 		turns = 0
-		
-		print(self.__correctAction)
+
 		
 		if playerObject.prompt == True:
 			print("Now it is time to", self.__correctAction)
@@ -122,11 +122,23 @@ class FreeTime(Activity):  #needs editing!!!
 				print("You go help the monks work.")
 				playerObject.decreasePenance(1)
 				break
+			elif user_input == "sleep":
+				print("You go to sleep.")
+				playerObject.changeSleepiness(-1)
+				playerObject.increaseSins(1,"laziness")
+				break
+			elif user_input == "chat with other monks":
+				playerObject.talk()
+				break
 			else:
 				self.other_inputs(playerObject, user_input, turns)
 				
 			turns += 1
-
+			
+		def do_action():
+			None
+			#maybe... if self.action == so and so... do such and such activity??? 
+			#maybe unnecessary tho 
 	
 class Sleep(Activity):
 		def __init__(self):
@@ -150,12 +162,15 @@ class Sleep(Activity):
 					
 				elif user_input == "pray":
 					print("You stay up praying instead.")
-					player.decreasePenance(10)
+					player.decreasePenance(2)
 					player.changeSleepiness(1)
+					player.decreaseHealth(1)
 					self.asleep = False
 					break
 				else:
 					print("I don't understand that.")
+					
+					
 					
 		def do_action(self, player):
 			if self.asleep == True:
@@ -170,6 +185,7 @@ class Sleep(Activity):
 						if player.sleepiness > 3:
 							print("You try and wake up, but you're too tired. Before you know it, you're drifting off to sleep.")
 							player.increaseSins(5, "laziness")
+							player.changeSleepiness(-4)
 							self.skip == True
 						else:
 							print("You wake up feeling refreshed.")
@@ -178,6 +194,8 @@ class Sleep(Activity):
 					elif user_input == "sleep more":
 						print("You sleep some more.")
 						player.increaseSins(5, "laziness")
+						player.changeSleepiness(-2)
+						player.decreaseHealth(-1)
 						self.skip == True
 						break
 					else:
@@ -213,19 +231,24 @@ class ChapterMeeting(Activity):
 					
 		if userInput == "y":
 			
-			while you.getSinsListLength() > 0:
+			while player.getSinsListLength() > 0:
+				if player.prompt == True:
+					print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
 				sin = input("What sins do you have to confess? \n > ")
 				
-				if you.prompt == True:
-					print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
-				you.confessSin(sin)				
-				if you.getSinsListLength() == 0:
-					print("You have no more sins to confess!")				
+				#times = input("How many times have you done this?") 
+				#should I have it so you can decrease it multiple times at once?? +.+?
+				player.confessSin(sin)	
+
+				if player.getSinsListLength() == 0:
+					print("You have no more sins to confess!")
+					player.increaseSins(0-player.getSins()) #should set your sins to 0.
+						
 				if sin == 'exit':
 					break
 				
-				if sin == "hint" and you.prompt == True:
-					you.getHintSins()
+				if sin == "hint" and player.prompt == True:
+					player.getHintSins()
 						
 
 class Dinner(Activity):
@@ -243,6 +266,7 @@ class Dinner(Activity):
 		if action != "listen" or action != "eat":
 			if action == "don't eat":
 				print("You don't eat the food in front of you.")
+				player.decreaseHealth(1)
 				player.decreasePenance(2)
 			
 			if action != "eat":
@@ -255,16 +279,17 @@ class Dinner(Activity):
 class GetDressed(Activity):
 	def __init__(self):
 		Activity.__init__(self, "get dressed", "dormitory")
+		
+	def go_to(self, player):
+		None
 
-	
-	#def go_to(self, player)
-	
 	def random_events(self, player):
 		None
 		
 		
 	def do_action(self, player):
-		print("What should you wear today?")
+		print("Now it is time to get dressed.")
+		print("What would you like to wear?")
 		if player.prompt == True:
 			print("1. Plain habit.")
 			print("2. Haircloth.")
