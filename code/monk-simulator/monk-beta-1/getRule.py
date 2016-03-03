@@ -34,7 +34,7 @@ def fixRule():
 	
 def getRule():
 
-	ruletxt = open('rule2.txt', 'r')
+	ruletxt = open('ruleOfBenedict.txt', 'r')
 	
 	rule = []
 
