@@ -8,7 +8,7 @@ class Player:
 		self.__sinsList = []
 		self.__penance = 0
 		self.__age = 20
-		self.__sickliness = 2
+		self.__sickliness = 0
 		self.__popularity = 0
 		self.sleepiness = 0
 		self.__lifespan =  25 #randint(30,80) but 25 for testing purposes
