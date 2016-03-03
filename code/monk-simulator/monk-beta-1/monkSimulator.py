@@ -142,7 +142,8 @@ def normal_day(player):
 			activity.go_to(player)
 			if activity.skip == False:
 				activity.random_events(player)
-				activity.do_action(player)
+				if you.isSick() == False:
+					activity.do_action(player)
 			else:
 				activity.skip = True
 
