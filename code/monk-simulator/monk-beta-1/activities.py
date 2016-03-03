@@ -221,7 +221,7 @@ class ChapterMeeting(Activity):
 			if userInput == 'y':
 				break 
 			elif userInput == 'n':
-				if you.getSins() == 0:
+				if player.getSins() == 0:
 					break
 				else:
 					print("I don't think that's the case... But okay...")
