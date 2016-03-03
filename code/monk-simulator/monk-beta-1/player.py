@@ -131,7 +131,7 @@ class Player:
 			if speech in hello:
 				print('Monk: \n"Hello,', self.getName() + '."')
 				
-			elif speech == "goodbye":
+			elif speech == "goodbye" or speech == "exit":
 				print("Monk: \nGoodbye")
 				break
 			
