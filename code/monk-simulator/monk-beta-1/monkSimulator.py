@@ -1,6 +1,7 @@
 import player
 import chronology
 import activities
+#from save_load import save  COMING SOON!!!
 
 '''
 TO-DO
@@ -19,6 +20,9 @@ TO-DO
 
 '''
 
+#COMING SOON!!!
+
+# Loading and saving ability! 
 
 
 				
@@ -49,37 +53,38 @@ compline = activities.Prayer("compline", PSALMS_SAID['compline'])
 
 
 
-DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
-#DAY_ACTIVITIES = [dinner, sleep] #for testing
+#DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
+DAY_ACTIVITIES = [sleep] #for testing
 
 
-time = chronology.Time()
 
 def main():
 
 	
+	time = chronology.Time()
 	
 	name = input("What is your name? \n> ")
 	you = player.Player(name)
 
 	print("Welcome", name + "! You are now a monk.")
 	
-
 	while you.alive == True:
 
 		time.printDate()
+		
+		print(time.getTotalDays())
 		
 		print("A new day begins! Early in the morning, before even the light of day has broken over the fertile plains of Burgundy, the monks of Cluny rise from their slumber to begin their daily rounds of prayer.")
 
 		if you.isSick() == False:	
 			normal_day(you)
-			you.changeHealth(True)
 		else:
 			sick_day(you)
 		
-		print("day over")
+		#print("day over")
 			
-		#time.dayEnd(you)
+		time.dayEnd(you)
+		
 		
 	end = input("You are dead. Thanks for playing.")
 	
@@ -137,12 +142,12 @@ def normal_day(player):
 			previous = len(DAY_ACTIVITIES)-1 #loop around
 		else:
 			previous = i-1
-		
-		if DAY_ACTIVITIES[previous].skip == False and you.isSick() == False:
+					
+		if DAY_ACTIVITIES[previous].skip == False and player.isSick() == False:
 			activity.go_to(player)
 			if activity.skip == False:
 				activity.random_events(player)
-				if you.isSick() == False:
+				if player.isSick() == False:
 					activity.do_action(player)
 			else:
 				activity.skip = True
