@@ -17,17 +17,55 @@ class Player:
 		self.prompt = True
 		self.__sick = False
 
+		
+		
+	#getters 	
+	def getSickliness(self):
+		return self.__sickliness;
+
 	def isSick(self):
 		return self.__sick
 		
-	def getSickliness(self):
-		return self.__sickliness;
+	def getName(self):
+		return self.__name
+		
+	def getSins(self):
+		return self.__sins
+		
+	def getSinsListLength(self):
+		return len(self.__sinsList)
 	
+	def getAge(self):
+		return self.__age
+		
+	def getPenance(self):
+		return self.__penance
+		
+	def getPopularity(self):
+		return self.__popularity
+		
+	def getSleepiness(self):
+		return self.sleepiness
+	
+	def getLifespan(self):
+		return self.__lifespan
+		
+	def getHoliness(self):
+		return self.holiness
+	
+	def getSinsList(self):
+		return self.__sinsList
+		
+	#setters
 	def changeHealth(self, sickOrNot):
 		self.__sick = sickOrNot
 		
-	def getName(self):
-		return self.__name
+	
+	def setAge(self, age):
+		self.__age += age
+		
+		if self.__age == self.__lifespan:
+			self.alive = False
 	
 	def setSins(self,sins):
 		self.__sins = sins
@@ -40,18 +78,18 @@ class Player:
 	
 	def die(self):
 		self.alive = False;
+		
+		
+		
+	#other functions
 	
 	def increaseSins(self, sins, sinName):
 			self.__sins += sins
-			self.__sinsList.append(sinName)
-			print("Your sin has increased by", sins, "for:", sinName + ".")
-			print("You currently have",  self.__sins, "sins.")
+			if sins > 0:
+				self.__sinsList.append(sinName)
+				print("Your sin has increased by", sins, "for:", sinName + ".")
+				print("You currently have",  self.__sins, "sins.")
 	
-	def getSins(self):
-		return self.__sins
-		
-	def getSinsListLength(self):
-		return len(self.__sinsList)
 		
 	def confessSin(self, sin):
 		if sin in self.__sinsList:
@@ -72,19 +110,13 @@ class Player:
 		print("Have you forgotten the time you did this:", self.__sinsList[0] + "?")
 		
 		
-	def setAge(self, age):
-		self.__age += age
-		
-		if self.__age == self.__lifespan:
-			self.alive = False
-			
-	def getAge(self):
-		return self.__age
-		
+	
 		
 	def decreasePenance(self, penance):
+		if self.__sins > 0:
+			self.__sins -= 1;		
 		if self.__penance > 0:
-			print("Good work! Your penance decreases by", penance + ".")
+			print("Good work! Your penance decreases by " + str(penance) + ".")
 			self.__penance -= penance
 			self.holiness += penance/2
 		elif self.__penance <= 0:
@@ -131,7 +163,7 @@ class Player:
 			if speech in hello:
 				print('Monk: \n"Hello,', self.getName() + '."')
 				
-			elif speech == "goodbye" or speech == "exit":
+			elif speech == "goodbye" or speech == "exit" or speech == "quit":
 				print("Monk: \nGoodbye")
 				break
 			
@@ -147,11 +179,16 @@ class Player:
 				print("You: \nSo I was thinking about this passage in Revelation the other night...")
 				self.increaseHoliness(1)
 				print("Monk: \n", reply)
+				
 			
 			elif speech in whatsUp:
 				print("Monk: \nI'm good, and you?")
 				
+			elif speech[len(speech)-1] == '?':
+				print("Monk: \nI don't know.")
+			
 			else:
 				reply = replies[randint(0, len(replies)-1)]
 				print("Monk: \n", reply)
 		
+		self.decreaseSins(2,"talking")
