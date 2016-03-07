@@ -19,11 +19,11 @@ def normalRandomEvents(player):
 		demonAbbot(player)
 	
 	
-	randInt = randint(1,100)
-	if randInt <= player.getSickliness() * 5:
+	randInt = randint(1,100) 
+	if randInt <= player.getSickliness() * 2:
 		player.changeHealth(True) #makes player sick
-		print("You aren't feeling very well. You decide to spent the rest of the day in the infirmary.")
-		
+		print("You aren't feeling very well. You decide to spend the rest of the day in the infimirary. You sleep for the rest of the day.")
+
 	
 	
 	
@@ -58,20 +58,20 @@ def talkToMonks(player):
 		
 	while True:
 		
-		action = input("> ")
+		action = input("> ").lower()
 	
-		if action.lower() == "ignore them":
+		if action.lower() == "ignore them" or action == '2':
 			print("Good idea!")
 			break
 		
-		elif action.lower() == "talk to them":
+		elif action.lower() == "talk to them" or action == '1':
 			player.talk()
 			break
 		
 		elif action.lower() in killWords:
 			print("You run at the monks and begin to stab one violently.")
 			player.increaseSins(100,"murder")
-			player.die()
+			#player.die()
 			break
 
 		else:
@@ -87,9 +87,11 @@ def demonApparation(player):
 	
 	print("As you are walking through the halls of an abbey, suddenly you see a demon appearing in front of you! It looks like", demons[rand])
 	
-	#print("What do you do?")
+	print("What do you do?")
 	
-	#action = input("> ")
+	action = input("> ")
+	
+	print("You " + action + ".")
 	
 	#if sins list > 0   "I know you still have unconfessed sins! "
 	#if sins are really big...    will make you sick
