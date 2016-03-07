@@ -72,7 +72,7 @@ class Activity():
 			player.increaseSins(5, "skipping")
 		elif action == 'help':
 			print("You don't know what to do? Type in where you'd like to go.")
-		elif action == 'hint' and turns > 2: 
+		elif action == 'hint' and turns > 1: 
 			print("Right now it is time for", self.__name + ".")
 		else:
 			print("I don't understand that!")
@@ -110,24 +110,24 @@ class FreeTime(Activity):  #needs editing!!!
 			
 		turns = 0
 		
-		while True:
+		while self.skip != True:
 		
-			user_input = input("> ")
+			user_input = input("> ").lower()
 			
-			if user_input == "read":
+			if user_input == "read" or user_input == '1':
 				print("You go study scripture.")
 				playerObject.decreasePenance(1)
 				break
-			elif user_input == "work":
+			elif user_input == "work" or user_input == '2':
 				print("You go help the monks work.")
 				playerObject.decreasePenance(1)
 				break
-			elif user_input == "sleep":
+			elif user_input == "sleep" or user_input == '3':
 				print("You go to sleep.")
 				playerObject.changeSleepiness(-1)
 				playerObject.increaseSins(1,"laziness")
 				break
-			elif user_input == "chat with other monks":
+			elif user_input == "chat with other monks" or user_input == '4':
 				playerObject.talk()
 				break
 			else:
@@ -135,10 +135,10 @@ class FreeTime(Activity):  #needs editing!!!
 				
 			turns += 1
 			
-		def do_action():
-			None
-			#maybe... if self.action == so and so... do such and such activity??? 
-			#maybe unnecessary tho 
+	def do_action(self, player):
+		None
+		#maybe... if self.action == so and so... do such and such activity??? 
+		#maybe unnecessary tho 
 	
 class Sleep(Activity):
 		def __init__(self):
@@ -152,7 +152,7 @@ class Sleep(Activity):
 				
 			while True:
 			
-				user_input = input("> ")
+				user_input = input("> ").lower()
 				
 				if user_input == "sleep":
 					print("You go to sleep.")
@@ -179,7 +179,7 @@ class Sleep(Activity):
 				print("It's time to wake up! Wake up, O sleeper, arise!")
 				
 				while True:
-					user_input = input("> ")
+					user_input = input("> ").lower()
 					
 					if user_input == "wake up":
 						if player.sleepiness > 3:
@@ -231,18 +231,23 @@ class ChapterMeeting(Activity):
 					
 		if userInput == "y":
 			
+			if player.getSinsListLength() == 0:
+				print("You don't have any sins to confess!")
+							
 			while player.getSinsListLength() > 0:
 				if player.prompt == True:
 					print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
 				sin = input("What sins do you have to confess? \n > ")
 				
+				
+					
 				#times = input("How many times have you done this?") 
 				#should I have it so you can decrease it multiple times at once?? +.+?
 				player.confessSin(sin)	
 
 				if player.getSinsListLength() == 0:
 					print("You have no more sins to confess!")
-					player.increaseSins(0-player.getSins()) #should set your sins to 0.
+					player.increaseSins(0-player.getSins(), "null") #should set your sins to 0.
 						
 				if sin == 'exit':
 					break
@@ -257,24 +262,37 @@ class Dinner(Activity):
 					
 	def do_action(self, player):
 		print("It is time to eat!")
-		print("While you eat, somebody reads.")
+		print("During dinner, somebody reads.")
 		randInt = randint(0,len(ruleExcerpts)-1)
 		print("\n",ruleExcerpts[randInt], ruleExcerpts[randInt+1], ruleExcerpts[randInt+2])
 		
-		action = input("> ")
+		if player.prompt == True:
+			print("Listen to the rule?")
+		action = input("> ").lower()
 		
-		if action != "listen" or action != "eat":
-			if action == "don't eat":
-				print("You don't eat the food in front of you.")
-				player.decreaseHealth(1)
-				player.decreasePenance(2)
-			
-			if action != "eat":
-				print("You are supposed to listen!")
-				player.increaseSins(1,"not listening to rule")
-		
+		if action != "listen" or action != "yes" or action != "ok":
+			print("You are supposed to listen!")
+			player.increaseSins(1,"not listening to rule")	
 		print("\n",ruleExcerpts[randInt+3], ruleExcerpts[randInt+4], ruleExcerpts[randInt+5])
 		
+		
+		print("Your food today is some bread and vegetable soup.")
+		if player.prompt == True:
+			print("Do you eat the food?")
+			
+		while True:
+			action = input("> ").lower()
+			
+			if action == "eat the food" or action == "yes":
+				print("You eat the food. Delicious.")
+				break
+			elif action == "don't eat food" or action == "no":
+				print("You don't eat the food. How very ascetic of you.")
+				player.decreaseHealth(1)
+				player.decreasePenance(2)
+				break
+			else:
+				print("I don't understand that.")
 		
 class GetDressed(Activity):
 	def __init__(self):
@@ -296,13 +314,13 @@ class GetDressed(Activity):
 		
 		while True:
 		
-			clothes = input("> ")
-			if clothes == "haircloth":
+			clothes = input("> ").lower()
+			if clothes == "haircloth" or clothes == '1':
 				print("You decide to wear the hair cloth. It's not very comfortable.")
 				player.decreaseHealth(1)
 				player.decreasePenance(2)
 				break
-			elif clothes == "plain habit" or clothes == "habit":
+			elif clothes == "plain habit" or clothes == "habit" or clothes == '2':
 				print("You wear your regular old everyday habit. A tried but true fashion.")
 				break
 			else:
