@@ -53,8 +53,8 @@ compline = activities.Prayer("compline", PSALMS_SAID['compline'])
 
 
 
-#DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
-DAY_ACTIVITIES = [sleep] #for testing
+DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
+#DAY_ACTIVITIES = [sleep] #for testing
 
 
 
