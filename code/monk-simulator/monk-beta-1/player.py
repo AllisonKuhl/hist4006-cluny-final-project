@@ -16,8 +16,14 @@ class Player:
 		self.holiness = 0
 		self.prompt = True
 		self.__sick = False
-
-		
+		#servant girl romance
+		self.romance1 = 'open'
+		self.romance1lvl = 0
+		self.meetings1 = 0
+		#oblate boy romance
+		self.romance2 = 'open'
+		self.romance2lvl = 0
+		self.meetings2 = 0
 		
 	#getters 	
 	def getSickliness(self):
@@ -191,4 +197,4 @@ class Player:
 				reply = replies[randint(0, len(replies)-1)]
 				print("Monk: \n", reply)
 		
-		self.decreaseSins(2,"talking")
+		self.increaseSins(2,"talking")
