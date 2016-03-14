@@ -90,7 +90,13 @@ class Prayer(Activity):
 		
 	def do_action(self, player):
 		print("You arrive in the chapel and prepare to say the liturgy.")
-		psalms.say_psalms(self.__psalmNumber, player, psalmsList, VERSES_SAID)
+		rand = randint(0,1)
+		if player.sleepiness > 2 and rand == 1:
+			print("You are so tired that you fall asleep during the liturgy! Uh-oh!")
+			player.increaseSins(3,"sleeping")
+		else:
+			psalms.responsary(player)
+			psalms.say_psalms(self.__psalmNumber, player, psalmsList, VERSES_SAID)
 
 		
 
@@ -115,12 +121,10 @@ class FreeTime(Activity):  #needs editing!!!
 			user_input = input("> ").lower()
 			
 			if user_input == "read" or user_input == '1':
-				print("You go study scripture.")
-				playerObject.decreasePenance(1)
+				self.read(playerObject)
 				break
 			elif user_input == "work" or user_input == '2':
-				print("You go help the monks work.")
-				playerObject.decreasePenance(1)
+				self.work(playerObject)
 				break
 			elif user_input == "sleep" or user_input == '3':
 				print("You go to sleep.")
@@ -139,6 +143,62 @@ class FreeTime(Activity):  #needs editing!!!
 		None
 		#maybe... if self.action == so and so... do such and such activity??? 
 		#maybe unnecessary tho 
+		
+		
+	def read(self, player):
+	
+		print("What would you like to read?")
+		print("1. The Bible")
+		print("2. Ovid")
+		print("3. Saint's Lives")
+
+	
+		while True:			
+			response = input("> ")
+			if response == "the Bible" or response == "1":
+				print("Good idea!")
+				player.decreasePenance(1)
+				break
+			elif response == "Ovid" or response == "2":
+				print("Scandalous!")
+				player.increaseSins(2,"pagan literature")
+				break
+			elif response == "Saint's Lives" or "3":
+				print("Good idea! You read about the life of St. Maiolus, one of the great abbots of this monastary.")
+				player.decreasePenance(1)
+				break
+			else:
+				print("I don't understand that!")
+		
+	def work(self, player):
+	
+		print("What kind of work would you like to do?")
+		print("1. Hard labour")
+		print("2. Illumination")
+		print("3. Composition")
+		while True:
+			
+			response = input("> ")
+			if response == "hard labour" or response == "1":
+				print("Nothing like some hard manual labour to get the blood pounding and the soul closer to God!")
+				player.decreasePenance(3)
+				player.decreaseHealth(1)
+				player.changeSleepiness(1)
+				break
+			elif response == "illumination" or response == "2":
+				print("You go to the scriptorium and help copy and decorate books.")
+				player.decreasePenance(1)
+				break
+			elif response == "composition" or response == "3":
+				print("You decide to write a literary masterpiece.")
+				print("Please begin.")
+				art = input("> ")
+				if "god" in art.lower():
+					player.decreasePenance(2)
+				print("Beautiful! Truly a masterpiece for the ages.")
+				break
+				
+			
 	
 class Sleep(Activity):
 		def __init__(self):
@@ -163,8 +223,10 @@ class Sleep(Activity):
 				elif user_input == "pray":
 					print("You stay up praying instead.")
 					player.decreasePenance(2)
-					player.changeSleepiness(1)
+					player.changeSleepiness(2)
 					player.decreaseHealth(1)
+					if player.getSleepiness() >= 4:
+						print("You barely manage to stay awake...")
 					self.asleep = False
 					break
 				else:
@@ -203,7 +265,8 @@ class Sleep(Activity):
 					self.asleep == False
 					
 		def random_events(self, player):
-			randomEvents.nightRandomEvents(player, ghost)
+			if self.asleep == True:
+				randomEvents.nightRandomEvents(player, ghost)
 					
 
 class ChapterMeeting(Activity):
@@ -213,6 +276,8 @@ class ChapterMeeting(Activity):
 			
 	def do_action(self, player):
 	
+		sins = player.getSinsList()
+		
 		print("\n Do you have any sins to confess? y or n")
 		
 		while True:
@@ -254,7 +319,67 @@ class ChapterMeeting(Activity):
 				
 				if sin == "hint" and player.prompt == True:
 					player.getHintSins()
-						
+		
+
+		#denunciations
+		
+		if "romance" in sins and player.romance1 == "kissed":
+			print("The chapter meeting is finishing up when suddenly a voice pierces the silence.")
+			print('"WAIT!"')
+			print("One of the monks is standing, pointing dramatically at you.")
+			print("I saw " + player.getName() + " kissing a servant girl the other day!!!!")
+			print("The monks all gasp collectively.")
+			print('"' + player.getName() + '! Is that true?!" asks the abbot.')
+			player.romance1 = 'closed'
+			print("You say...")
+			while True:
+				action = input("> ").lower()
+				
+				if action == "yes":
+					print('"Well... as long as you\'ve admitted it now. However, this is a serious crime, and you shouldn\'t have kept it from us for so long! You\'re going to have to pay a lot of penance for this!"')
+					print("Your penance increased by 8!")
+					player.__penance += 8
+					break
+					
+				elif action == "no":
+					print('"That\'s not true!" shouts the other monk, "I saw them with my own two eyes!"')
+					print('"The other monks deliberate for a bit. Eventually they turn to you."')
+					print('"' + player.getName() + ', I\'m afraid that you have greatly sinned. Since you refused to admit it, I\'m afraid that you\'re going to have to be punished.')
+					print("You penance increased by 15!")
+					player.__penance += 15
+					break
+				else:
+					print("Please answer either yes or no.")
+
+		if player.romance2 == "alarmed":
+			print("The chapter meeting is finishing up when suddenly a voice pierces the silence.")
+			print('"WAIT!"')
+			print("It is the boy you hit on earlier. His voice is shaking.")
+			print('"This monk....!" he says, "He tried to.... he... said that... What he did cannot even be said in polite company! You know what I mean!"')
+			print("The monks gasp collectively.")
+			print('"' + player.getName() + '! Is that true?!" asks the abbot. "Did you try and commit sodomic acts with this boy?')
+			print("You say...")
+			
+			while True:
+				action = input("> ")
+				
+				if action == "yes":
+					print("The monks gasp collectively once more, but the abbot gestures for them to be quiet.")
+					print('"Well... as long as you\'ve admitted it now. However, this is a very serious crime, and you should\'ve confessed it earlier. You\'re going to have to pay a lot of penance for this!"')
+					print("Your penance increased by 8!")
+					player.__penance += 8
+					break
+			
+				if action == "no":
+					print('"I see," the other monks mutter to themselves. They turn toward the younger monk and begin to scold him. "You shouldn\t slander your superiors!"')
+					print("...You feel a little bit guilty.")
+					player.increaseSins(1,"lying")
+					player.romance2 = "continued"
+					
+				else:
+					print("Please answer either yes or no!")
+					
+					
 
 class Dinner(Activity):
 	def __init__(self):
@@ -315,12 +440,12 @@ class GetDressed(Activity):
 		while True:
 		
 			clothes = input("> ").lower()
-			if clothes == "haircloth" or clothes == '1':
+			if clothes == "haircloth" or clothes == '2':
 				print("You decide to wear the hair cloth. It's not very comfortable.")
 				player.decreaseHealth(1)
 				player.decreasePenance(2)
 				break
-			elif clothes == "plain habit" or clothes == "habit" or clothes == '2':
+			elif clothes == "plain habit" or clothes == "habit" or clothes == '1':
 				print("You wear your regular old everyday habit. A tried but true fashion.")
 				break
 			else:
