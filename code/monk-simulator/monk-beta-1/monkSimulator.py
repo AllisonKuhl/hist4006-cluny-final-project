@@ -1,7 +1,7 @@
 import player
 import chronology
 import activities
-#from save_load import save  COMING SOON!!!
+
 
 '''
 TO-DO
@@ -54,7 +54,7 @@ compline = activities.Prayer("compline", PSALMS_SAID['compline'])
 
 
 DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
-#DAY_ACTIVITIES = [sleep] #for testing
+#DAY_ACTIVITIES = [freeTime, compline, sleep] #for testing
 
 
 
@@ -67,6 +67,10 @@ def main():
 	you = player.Player(name)
 
 	print("Welcome", name + "! You are now a monk.")
+	
+	#load(player, time, "matins")
+	
+	
 	
 	while you.alive == True:
 
@@ -105,7 +109,7 @@ def sick_day(player):
 			
 			if action in validActions:
 				print("You close your eyes and rest. You can feel yourself getting healthier already.")
-				player.decreaseHealth(-1)
+				player.decreaseHealth(-3)
 				break
 			else:
 				print("Now's not the time for that! You need to rest!")
