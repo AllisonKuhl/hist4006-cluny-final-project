@@ -1,7 +1,8 @@
 '''
 To - DO
-decrease sins when you mess up
-keep track of how many mistakes. 
+
+decrease sins when you mess up in responsary 
+
 '''
 def getPsalms():  #function that gets a list of all the psalms. You must have a text file of all the psalms in the same directory for it to work however.
 
@@ -91,13 +92,64 @@ def say_psalms(number, player, psalmsArray, howManyVerses):
 	print("\n")
 	
 	if mistakes > 0:
-		print("You made", mistakes, "mistakes while saying the psalms!")
-		player.increaseSins(mistakes, "saying the psalms incorrectly")
+		player.increaseSins("saying the psalms incorrectly")
 	else:
 		print("Wow! You said it perfectly! Flawless victory!\n")
 		player.decreasePenance(5)
 				
 				
+
+
+mistakes = False
+
+def response(correctResponse, player):
+
+	if player.prompt == True:
+		print('(you say: "'+ correctResponse + '")')
+		
+	response = input("> ")
+	
+	if response != correctResponse:
+		mistakes = True
+		
+
+
+def responsary(player): 
+
+	print("Oh Lord, open my lips!")
+	
+	response("And my mouth will declare your praise.", player)
+
+	print("Make haste, O God, to deliver me.")
+	
+	response("Make haste to help me, O LORD!", player)
+	
+	gloriaPatri(player)
+	
+	if mistakes == True:
+		player.increaseSins("messing up liturgy")
+		
+	
+	
+def gloriaPatri(player):
+	
+	response("Glory be to the Father", player)
+	response("And to the Son", player)
+	response("And to the Holy Spirit", player)
+	response("As it was in the beginning", player)
+	response("Is now and will be forever", player)
+	response("Amen.", player)
+	
+		
+		
+
+
+
+
+
+
+
+
 				
 				
 				
@@ -120,4 +172,7 @@ def main():
 	
 				
 #main()
+				
+
+
 	
