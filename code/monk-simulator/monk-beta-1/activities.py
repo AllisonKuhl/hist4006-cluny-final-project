@@ -34,8 +34,11 @@ class Activity():
 				print("You", self.__correctAction + ".")
 				break
 				
+			elif user_input.rstrip(" ") == "go to":
+				print("Go to where?")
+				
 			elif "go to" in user_input:
-				print("You", user_input + ". But nobody's there! Uh-oh, looks like you went to the wrong place! You end up missing", self.__name + ".")
+				print("You", user_input + ". But wait! You were supposed to go to " + self.__name + " Uh-oh, looks like you went to the wrong place! You end up missing " + self.__name + ".")
 				self.skip = True	
 				break
 			
@@ -60,16 +63,16 @@ class Activity():
 			print("You sing: 'Lalalalala~~~~'")
 		elif "dance" in action:
 			print("You start boogying about.")
-			player.increaseSins(1,'levity')
-		elif "talk" in action:
+			player.increaseSins('levity')
+		elif "talk" in action or "say" in action:
 			print("You shouldn't be talking!")
-			player.increaseSins(1, 'talking')
+			player.increaseSins('talking')
 		#if go to church....
 		#if pray....
 		elif turns > 3:
 			print("You've wasted so much time that you've missed " + self.__name + "!")
 			self.skip = True
-			player.increaseSins(5, "skipping")
+			player.increaseSins("skipping")
 		elif action == 'help':
 			print("You don't know what to do? Type in where you'd like to go.")
 		elif action == 'hint' and turns > 1: 
@@ -93,7 +96,7 @@ class Prayer(Activity):
 		rand = randint(0,1)
 		if player.sleepiness > 2 and rand == 1:
 			print("You are so tired that you fall asleep during the liturgy! Uh-oh!")
-			player.increaseSins(3,"sleeping")
+			player.increaseSins("sleeping")
 		else:
 			psalms.responsary(player)
 			psalms.say_psalms(self.__psalmNumber, player, psalmsList, VERSES_SAID)
@@ -113,6 +116,7 @@ class FreeTime(Activity):  #needs editing!!!
 			print("2. Work")
 			print("3. Sleep")
 			print("4. Chat with other monks.")
+			print("5. Private mass")
 			
 		turns = 0
 		
@@ -129,13 +133,24 @@ class FreeTime(Activity):  #needs editing!!!
 			elif user_input == "sleep" or user_input == '3':
 				print("You go to sleep.")
 				playerObject.changeSleepiness(-1)
-				playerObject.increaseSins(1,"laziness")
+				playerObject.increaseSins("laziness")
 				break
 			elif user_input == "chat with other monks" or user_input == '4':
 				playerObject.talk()
 				break
+			
+			elif user_input == "private mass" or user_input == "5":
+				print("You go to chapel for a private mass.")
+				print("Is there anyone in particular you'd like to pray for?")
+				person = input("Pray for.... > ")
+				if person == ghost.name:
+					ghost.massesSaid += 1
+				print("You pray for", person + ".")
+				
 			else:
 				self.other_inputs(playerObject, user_input, turns)
+				
+			
 				
 			turns += 1
 			
@@ -161,7 +176,7 @@ class FreeTime(Activity):  #needs editing!!!
 				break
 			elif response == "Ovid" or response == "2":
 				print("Scandalous!")
-				player.increaseSins(2,"pagan literature")
+				player.increaseSins("pagan literature")
 				break
 			elif response == "Saint's Lives" or "3":
 				print("Good idea! You read about the life of St. Maiolus, one of the great abbots of this monastary.")
@@ -246,7 +261,7 @@ class Sleep(Activity):
 					if user_input == "wake up":
 						if player.sleepiness > 3:
 							print("You try and wake up, but you're too tired. Before you know it, you're drifting off to sleep.")
-							player.increaseSins(5, "laziness")
+							player.increaseSins("sleeping")
 							player.changeSleepiness(-4)
 							self.skip == True
 						else:
@@ -255,7 +270,7 @@ class Sleep(Activity):
 						
 					elif user_input == "sleep more":
 						print("You sleep some more.")
-						player.increaseSins(5, "laziness")
+						player.increaseSins("sleeping")
 						player.changeSleepiness(-2)
 						player.decreaseHealth(-1)
 						self.skip == True
@@ -312,7 +327,6 @@ class ChapterMeeting(Activity):
 
 				if player.getSinsListLength() == 0:
 					print("You have no more sins to confess!")
-					player.increaseSins(0-player.getSins(), "null") #should set your sins to 0.
 						
 				if sin == 'exit':
 					break
@@ -373,7 +387,7 @@ class ChapterMeeting(Activity):
 				if action == "no":
 					print('"I see," the other monks mutter to themselves. They turn toward the younger monk and begin to scold him. "You shouldn\t slander your superiors!"')
 					print("...You feel a little bit guilty.")
-					player.increaseSins(1,"lying")
+					player.increaseSins("lying")
 					player.romance2 = "continued"
 					
 				else:
@@ -395,9 +409,11 @@ class Dinner(Activity):
 			print("Listen to the rule?")
 		action = input("> ").lower()
 		
-		if action != "listen" or action != "yes" or action != "ok":
+		if action != "listen" and action != "yes" and action != "ok":
 			print("You are supposed to listen!")
-			player.increaseSins(1,"not listening to rule")	
+			player.increaseSins("not listening to rule")
+		else:
+			print("Good idea.")
 		print("\n",ruleExcerpts[randInt+3], ruleExcerpts[randInt+4], ruleExcerpts[randInt+5])
 		
 		
