@@ -74,7 +74,7 @@ def talkToMonks(player):
 		
 		elif action.lower() in killWords:
 			print("You run at the monks and begin to stab one violently.")
-			player.increaseSins(100,"murder")
+			player.increaseSins("murder")
 			#player.die()
 			break
 
@@ -168,7 +168,7 @@ def servantGirl(player):
 	
 	player.meetings1 += 1
 	print("You see a pretty servant girl walking through the halls carrying some vegetables. You can't help but think she's very beautiful.")
-	player.increaseSins(1,"impure thoughts")
+	player.increaseSins("impure thoughts")
 	print("What should you do?")
 	print("1. Ignore")
 	print("2. Say hello")
@@ -183,13 +183,13 @@ def servantGirl(player):
 			
 		elif action == "say hello" or action == "2":
 			print("You come up and say hello.")
-			player.increaseSins(1,"talking")
+			player.increaseSins("talking")
 			romance1(player)
 			break
 			
 		elif action == "flirt" or action == '3':
 			print('You say: "Hey there beautiful."')
-			player.increaseSins(1,"romance")
+			player.increaseSins("romance")
 			
 			if player.romance1lvl > 3:
 				print('She blushes happily and hits you on the arm. "S-stop it! Stupid! What if somebody finds out?"')
@@ -264,7 +264,7 @@ def romance1(player):
 				if player.romance1lvl > 5:
 					print('She blushes deeply. "I\m sorry," you say, "...I guess I stepped out of bounds." You turn to leave, but then you feel a tug on your habit. "...Don\'t go..." she says quietely. "I....I want you to stay."')
 					print("Then you kiss.")
-					player.increaseSins(5,"romance")
+					player.increaseSins("kissing")
 					player.romance1 = 'kissed'
 					
 					
@@ -318,7 +318,7 @@ def oblate(player):
 	
 	player.meetings2 += 1
 	print("You see some young monks walking through the hall. You can't help but notice one in particular... He's thin and skinny and looks about 17 years old. His skin is very fair and smooth, and his hair thick and brown and curly. He's very beautiful.")
-	player.increaseSins(1,"impure thoughts")
+	player.increaseSins("impure thoughts")
 	
 	print("What should you do?")
 	print("1. Ignore him")
@@ -334,7 +334,7 @@ def oblate(player):
 		
 		if action == "talk to him" or action == "2" or action == "talk":
 			romance2(player)
-			player.increaseSins(1,"talking")
+			player.increaseSins("talking")
 			break
 			
 		if action == "flirt" or action == "3":
@@ -343,7 +343,7 @@ def oblate(player):
 				print("You wait until nobody is around before you approach him.")
 				print("Suddenly you kiss him.")
 				print("He kisses you back.")
-				player.increaseSins(5,"sodomy")
+				player.increaseSins("sodomy")
 		
 			else:
 				print("You wait until nobody else his around before you approach him.")
@@ -351,7 +351,7 @@ def oblate(player):
 				print('"The boy says, "!!!!!! >:O"')
 				if player.romance2 != "continued":
 					player.romance2 = "alarmed"
-				player.increaseSins(1,"romance")
+				player.increaseSins("romance")
 			break
 		else:
 			print("I don't understand that!")
