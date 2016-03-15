@@ -1,5 +1,8 @@
 from random import randint
 
+
+sinDict = {"murder": 100, "impure thoughts": 1, "talking": 1, "romance": 1, "kissing": 5, "sodomy": 5, "laziness": 1, "pagan literature": 1, "lying": 1, "not listening to rule": 1, "levity": 1, "skipping": 1, "sleeping": 1, "saying the psalms incorrectly": 2, "messing up liturgy": 2}
+
 #this is you	
 class Player:
 	def __init__(self, name):
@@ -89,12 +92,11 @@ class Player:
 		
 	#other functions
 	
-	def increaseSins(self, sins, sinName):
-			self.__sins += sins
-			if sins > 0:
-				self.__sinsList.append(sinName)
-				print("Your sin has increased by", sins, "for:", sinName + ".")
-				print("You currently have",  self.__sins, "sins.")
+	def increaseSins(self, sinName):
+			self.__sins += sinDict[sinName]
+			self.__sinsList.append(sinName)
+			print("Your sin has increased by", sinDict[sinName], "for:", sinName + ".")
+			print("You currently have",  self.__sins, "sins.")
 	
 		
 	def confessSin(self, sin):
@@ -102,22 +104,23 @@ class Player:
 			index = self.__sinsList.index(sin)
 			self.__sinsList.pop(index)
 			print("Ah, I see... Almighty God will forgive this most grevious fault... But first you must do some penance.")
-			print("Penance increased by 2!")
-			self.__sins -= 1
-			self.__penance += 2
+			print("Penance increased by", sinDict[sin])
+			self.__sins -= sinDict[sin]
+			self.__penance += sinDict[sin]
 			
 		elif sin == exit:
 			print("You should think more carefully next time about what you've done wrong.")
 			
-		else:
+		elif sin in sinDict:
 			print("But you haven't done that!")
 	
+		else:
+			print("I don't understand that!")
+			
 	def getHintSins(self):
 		print("Have you forgotten the time you did this:", self.__sinsList[0] + "?")
 		
-		
 	
-		
 	def decreasePenance(self, penance):
 		if self.__sins > 0:
 			self.__sins -= 1;		
@@ -197,4 +200,4 @@ class Player:
 				reply = replies[randint(0, len(replies)-1)]
 				print("Monk: \n", reply)
 		
-		self.increaseSins(2,"talking")
+		self.increaseSins("talking")
