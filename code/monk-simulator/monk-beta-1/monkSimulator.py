@@ -2,27 +2,15 @@ import player
 import chronology
 import activities
 
-
 '''
 TO-DO
 
-- add interaction for demon random event
-- cleaner code
-- fine-tune dates and schedule
-- add more interactivity for free-time function
-- update dinner activity
-- add feast days and seasonal liturgy
-- Add more ways to decrease penance (like if you do prayers all correctly?)
-- option to save or load game
-- lots more stuff probably
-- romance events
-- special jobs
+- more romance
+- epic journey
+- interaction with abbot?
+- private mass?
 
 '''
-
-#COMING SOON!!!
-
-# Loading and saving ability! 
 
 
 				
@@ -54,7 +42,7 @@ compline = activities.Prayer("compline", PSALMS_SAID['compline'])
 
 
 DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
-#DAY_ACTIVITIES = [freeTime, compline, sleep] #for testing
+#DAY_ACTIVITIES = [dinner, compline, chapterMeeting] #for testing
 
 
 
@@ -84,7 +72,6 @@ def main():
 			normal_day(you)
 		else:
 			sick_day(you)
-		
 		#print("day over")
 			
 		time.dayEnd(you)
