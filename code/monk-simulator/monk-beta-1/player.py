@@ -1,7 +1,7 @@
 from random import randint
 
 
-sinDict = {"murder": 100, "impure thoughts": 1, "talking": 1, "romance": 1, "kissing": 5, "sodomy": 5, "laziness": 1, "pagan literature": 1, "lying": 1, "not listening to rule": 1, "levity": 1, "skipping": 1, "sleeping": 1, "saying the psalms incorrectly": 2, "messing up liturgy": 2}
+sinDict = {"murder": 100, "impure thoughts": 1, "talking": 1, "romance": 1, "kissing": 5, "sodomy": 5, "laziness": 1, "pagan literature": 1, "lying": 1, "not listening to rule": 1, "levity": 1, "skipping": 1, "sleeping": 1, "saying the psalms incorrectly": 2, "messing up liturgy": 2, "disobedience":5}
 
 #this is you	
 class Player:
@@ -27,6 +27,9 @@ class Player:
 		self.romance2 = 'open'
 		self.romance2lvl = 0
 		self.meetings2 = 0
+		#going on journey
+		self.journey = False
+		self.journeyDays = 0
 		
 	#getters 	
 	def getSickliness(self):
