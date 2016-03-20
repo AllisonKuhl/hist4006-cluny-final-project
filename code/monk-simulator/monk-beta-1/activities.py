@@ -74,7 +74,7 @@ class Activity():
 			self.skip = True
 			player.increaseSins("skipping")
 		elif action == 'help':
-			print("You don't know what to do? Type in where you'd like to go.")
+			print("You don't know what to do? Type in where you'd like to go. If you don't know, try asking for a hint?")
 		elif action == 'hint' and turns > 1: 
 			print("Right now it is time for", self.__name + ".")
 		else:
@@ -96,6 +96,7 @@ class Prayer(Activity):
 		rand = randint(0,1)
 		if player.sleepiness > 2 and rand == 1:
 			print("You are so tired that you fall asleep during the liturgy! Uh-oh!")
+			player.changeSleepiness(-1)
 			player.increaseSins("sleeping")
 		else:
 			psalms.responsary(player)
@@ -146,6 +147,7 @@ class FreeTime(Activity):  #needs editing!!!
 				if person == ghost.name:
 					ghost.massesSaid += 1
 				print("You pray for", person + ".")
+				break
 				
 			else:
 				self.other_inputs(playerObject, user_input, turns)
@@ -235,7 +237,7 @@ class Sleep(Activity):
 					self.asleep = True
 					break
 					
-				elif user_input == "pray":
+				elif user_input == "pray" or user_input == "stay up praying":
 					print("You stay up praying instead.")
 					player.decreasePenance(2)
 					player.changeSleepiness(2)
