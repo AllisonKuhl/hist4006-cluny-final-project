@@ -22,7 +22,10 @@ def normalRandomEvents(player):
 	elif randInt < 70:
 		romance(player)
 	
-	
+	elif randInt < 80 and player.getHoliness > 10 and player.getSins() < 5:
+		journey1(player)
+		
+		
 	randInt = randint(1,100) 
 	if randInt <= player.getSickliness() * 2:
 		player.changeHealth(True) #makes player sick
@@ -381,5 +384,29 @@ def romance2(player):
 		
 			break
 		
+def journey1(player):
+	
+	agreeWords = ["yes", "ok","sure", "yeah"]
 
+	print('The abbot comes up to you and says, "Greetings, ' + player.getName() + '. I have an important task for you. Since you are a hardworking and trustworthy monk, I was hoping that you could deliver a message to me to the pope in Italy."')
+	print("What do you say?")
+		
+	while True:
+		response = input("> ").lower()
+		
+		if response in agreeWords:
+			print("Great! Now, as you may know, the abbey of Cluny is not subject to any authority but the pope alone. But lately some certain people have been troubling us, so I want you to go to the pope and complain. You can leave tomorrow at dawn.")
+			player.journey = True
+			break
+		elif response == "no":
+			print("Oh. Okay then. >:|")
+			player.increaseSins("disobedience")
+			break
+		else:
+			print("I don't understand that! Respond either yes or no.")
+		
+		print("The abbot leaves.")
+		
+		
+	
 	
