@@ -7,7 +7,8 @@ from random import randint
 TO-DO
 
 - more romance
-- more contemporary events
+- interaction with abbot?
+-finetune values
 
 '''
 
@@ -41,7 +42,7 @@ compline = activities.Prayer("compline", PSALMS_SAID['compline'])
 
 
 DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
-#DAY_ACTIVITIES = [dinner, compline, chapterMeeting] #for testing
+#DAY_ACTIVITIES = [sleep, freeTime] #for testing
 
 
 
@@ -80,7 +81,22 @@ def main():
 		time.dayEnd(you)
 		
 		
-	end = input("You are dead. Thanks for playing.")
+		
+	if you.getSins <= 0 and you.getPenance > 0:
+		purgatory
+	elif you.getSins > 0:
+		print("Since you did not confess your sins before you die, you go to hell. There is much weeping and gnashing of teeth.")
+	elif you.getSins < 5 and you.holiness < 5: #or if murder or romance?
+		print("Due to the great many sins you comitted, you go to hell. There is much weeping and gnashing of teeth.")
+	
+	elif you.getSins == 0 and self.holiness > 10 and self.penance < 5:
+		print("Due to your extreme holiness and sanctified living, you find yourself in front of a beautiful looking city.")
+		print("And the building of the wall thereof was of jasper stone: but the city itself pure gold, like to clear glass. And the foundations of the wall of the city were adorned with all manner of precious stones. The first foundation was jasper: the second, sapphire: the third, a chalcedony: the fourth, an emerald:The fifth, sardonyx: the sixth, sardius: the seventh, chrysolite: the eighth, beryl: the ninth, a topaz: the tenth, a chrysoprasus: the eleventh, a jacinth: the twelfth, an amethyst. And the twelve gates are twelve pearls, one to each: and every several gate was of one several pearl. And the street of the city was pure gold, as it were transparent glass. And in the city was a lamb standing on a throne, surrounded by living creatures who cried 'Holy holy holy, Lord God of Sabaoth! Heaven and Earth are filled with your glory!'")
+		print("And you lived happily ever after.")
+		
+		
+		
+	end = input("Thanks for playing.")
 	
 
 	
@@ -118,11 +134,38 @@ def sick_day(player):
 				break
 			else:
 				print("Answer either yes or no!")
-				
-		print("You sleep for the rest of the day.")
+			
 
-	player.changeHealth(False)
-	print("You are feeling a lot better! Tomorrow you can leave the infirmary and resume the regular hours.")
+		if len(self.__sinsList > 0):
+			print("A monk comes by to see if you have any sins to confess.")
+			while len(self.__sinsList) > 0:
+				print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
+				sin = input("What sins do you have to confess? \n > ")
+				self.confessSin(sin)
+		
+		print("You sleep for the rest of the day.")
+		
+		#random chance of dying...
+		rand = randint(0,100)
+		print("Chance of dying is:", rand)
+		if player.getSins() > 10:
+			#more likely to die if you are a sinner....
+			if rand < player.getSickliness() + 20:
+				print("Unfortunately, however, your illness gets worse and you die. :(")
+				player.die()
+					
+		else:
+			if rand < player.getSickliness() + 10:
+				print("Unfortunately, however, your illness gets worse and you die. :(")
+				player.die()
+				
+			
+		
+		
+	if player.alive == True:
+		player.changeHealth(False)
+		print("You are feeling a lot better! Tomorrow you can leave the infirmary and resume the regular hours.")
+	
 	
 def normal_day(player):
 
@@ -137,11 +180,11 @@ def normal_day(player):
 		else:
 			previous = i-1
 					
-		if DAY_ACTIVITIES[previous].skip == False and player.isSick() == False:
+		if DAY_ACTIVITIES[previous].skip == False and player.isSick() == False and player.alive == True:
 			activity.go_to(player)
-			if activity.skip == False:
+			if activity.skip == False and player.alive == True:
 				activity.random_events(player)
-				if player.isSick() == False:
+				if player.isSick() == False and player.alive == True:
 					activity.do_action(player)
 			else:
 				activity.skip = True
@@ -176,8 +219,13 @@ def journey(player):
 			action = input("> ").lower()
 			
 			if action == "fight them" or action == "1":
-				print("You fight against the bandits, but all they do is beat you up more. They leave you on the side of the road, nearly dead.")
-				player.changeHealth(3)
+				rand = randint(0,1)
+				if rand == 1:
+					print("You fight against the bandits, but all they do is beat you up more. They leave you on the side of the road, nearly dead.")
+				elif rand == 0:
+					print("You fight the bandits, but they're too strong! They kill you. You are dead.")
+					player.die()
+					player.journey = False
 				break
 				
 			elif action == "pray" or action == "2":
@@ -194,8 +242,14 @@ def journey(player):
 			action = input("> ").lower()
 			
 			if action == "yes":
-				print("You eat the meat.")
-				player.increaseSins("laxity")
+				rand = randint(0,1)
+				if rand == 1:
+					print("You eat the meat. Tastes good!")
+					player.increaseSins("laxity")
+				elif rand == 0:
+					print("As you are eating the chicken, a bone gets caught in your throat and you choke and die. Uh oh! You are dead!")
+					player.die()
+					player.journey = False
 				break
 			elif action == "no":
 				print("You don't eat the meat! Good call!")
@@ -229,5 +283,21 @@ def journey(player):
 		player.journey = False
 	
 	player.journeyDays += 1
+	
+	
+def purgatory(player):
+
+	player.__penance += player.getSins()
+	
+	while player.getPenance > 0:
+		print("You are in purgatory. It's not very nice. You feel the weight of your sins crawling on your back.")
+		print("Faintly, you can discern the sounds of monks praying for you. Oddly enough, you feel lighter, like someone took a load of your back...")
+		print("Another day passes....")
+		penance += 0
+
+
+	print("Finally, thanks to the diligent prayers of your fellow monks, you are able to enter heaven! What bliss! What joy! It's really great.")
+	
+	
 	
 main()
