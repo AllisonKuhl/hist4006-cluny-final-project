@@ -1,6 +1,6 @@
 from random import randint
 from player import Player
-# chances of monks talking  is .... 20%
+from ghost import Ghost
 
 #you = Player("Hugh")
 #randInt = randint(1,100)
@@ -12,6 +12,9 @@ from player import Player
 def normalRandomEvents(player): 
 	randInt = randint(1,100)
 	
+	#for testing
+	randInt = 82
+	
 	if randInt < 20:
 		talkToMonks(player)	
 	elif randInt < 40:
@@ -22,9 +25,14 @@ def normalRandomEvents(player):
 	elif randInt < 70:
 		romance(player)
 	
-	elif randInt < 80 and player.getHoliness > 10 and player.getSins() < 5:
+	elif randInt < 80 and player.getHoliness > 6 and player.getSins() < 5:
 		journey1(player)
-		
+	
+	elif randInt < 83 and player.getSins() > 7:
+		print("A lanterns falls on you! You are dead!")
+		player.die()
+	elif randInt < 83:
+		print("You are walking along when you hear a great crash! A lantern tumbles to the ground just in front of you. Wow! You nearly died. Truly God has saved you!")
 		
 	randInt = randint(1,100) 
 	if randInt <= player.getSickliness() * 2:
@@ -39,7 +47,9 @@ def nightRandomEvents(player, ghost):
 
 	randInt = randint(1,100)
 	
-	if randInt < 20:
+	if ghost.massesSaid >= 1:
+		vision(ghost)	
+	elif randInt < 20:
 		vision(ghost)
 	elif randInt < 40:
 		nightDemons(player)
@@ -94,11 +104,22 @@ def demonApparation(player):
 	
 	print("As you are walking through the halls of an abbey, suddenly you see a demon appearing in front of you! It looks like", demons[rand])
 	
-	print("What do you do?")
+	if player.getHoliness() > 8 and player.getSins() < 5:
+		print("However, due to your extreme holiness, the demon is unable to approach you.")
 	
-	action = input("> ")
-	
-	print("You " + action + ".")
+	elif player.getSins() > 10:
+		print('The demon laughs at you hysterically. "I know what you are!" it says, "You belong with us!" It howls and swoops down at you, engulfing you into his being.'"
+		player.alive == False #you don't get confession at this point.... :(
+		
+	else:
+		print("What do you do?")
+		
+		action = input("> ")
+		
+		if action == "pray":
+			print("At your words, the demon covers his ears and hisses loudly. He appears to be in pain. Angrily, he dissolves into the air.")
+		else:
+			print("You " + action + ".")
 	
 	#if sins list > 0   "I know you still have unconfessed sins! "
 	#if sins are really big...    will make you sick
@@ -405,7 +426,7 @@ def journey1(player):
 		else:
 			print("I don't understand that! Respond either yes or no.")
 		
-		print("The abbot leaves.")
+	print("The abbot leaves.")
 		
 		
 	
