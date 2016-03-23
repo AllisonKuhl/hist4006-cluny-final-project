@@ -1,7 +1,7 @@
 from random import randint
 
 
-sinDict = {"murder": 100, "impure thoughts": 1, "talking": 1, "romance": 1, "kissing": 5, "sodomy": 5, "laziness": 1, "pagan literature": 1, "lying": 1, "not listening to rule": 1, "levity": 1, "skipping": 1, "sleeping": 1, "saying the psalms incorrectly": 2, "messing up liturgy": 2, "disobedience":5}
+sinDict = {"murder": 100, "impure thoughts": 1, "talking": 1, "romance": 1, "kissing": 5, "sodomy": 5, "laziness": 1, "pagan literature": 1, "lying": 1, "not listening to rule": 1, "levity": 1, "skipping": 1, "sleeping": 1, "saying the psalms incorrectly": 2, "messing up liturgy": 2, "disobedience":5, "laxity":1}
 
 #this is you	
 class Player:
@@ -77,7 +77,7 @@ class Player:
 		self.__age += age
 		
 		if self.__age == self.__lifespan:
-			self.alive = False
+			self.die()
 	
 	def setSins(self,sins):
 		self.__sins = sins
@@ -89,6 +89,21 @@ class Player:
 		self.__popularity += num
 	
 	def die(self):
+	
+		print("Just before you die, a priest comes to take your last confession.")
+		
+		if len(self.__sinsList) <= 0:
+			print("But you have no sins to confess!")
+			print("You pass away peacefully, you're eyes fixed toward heaven.")
+		
+		else: 
+			while len(self.__sinsList) > 0:
+				print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
+				sin = input("What sins do you have to confess? \n > ")
+				self.confessSin(sin)
+			print("With one last rattling breath, you pass away. Guess you'll have to do the penance in heaven. ")
+			
+		
 		self.alive = False;
 		
 		
