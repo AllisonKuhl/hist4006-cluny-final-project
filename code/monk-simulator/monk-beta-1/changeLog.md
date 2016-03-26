@@ -14,3 +14,12 @@ March 23rd
 
 -added heaven, purgatory and hell endings
 
+
+
+March 26
+
+-fixed some bugs (forgotten quotations marks, parentheses, those kind of things)
+
+-changed prompts so that it tells you when prompts will end, and changed it so when you make a lot of mistakes, the prompts will return 
+
+
