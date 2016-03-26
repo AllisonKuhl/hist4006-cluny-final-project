@@ -1,21 +1,22 @@
 from random import randint
 
 #Time variables
-DAYS_IN_YEAR = 12  #how many days in a year??
+DAYS_IN_YEAR = 8  #how many days in a year??
 
 LENGTH_LENT = 2  #how long is lent?
 LENT_MIN_START = 2 #earliest time for lent to start
-LENT_MAX_START = 4 #latest time for lent to start
+LENT_MAX_START = 3 #latest time for lent to start
 LENT_START = randint(LENT_MIN_START,LENT_MAX_START) #will pick a day for lent to start within those two intervals
-AUTUMN_STARTS = 9  #what day does winter start?
-CHRISTMAS = 11   #when is Christmas?
+AUTUMN_STARTS = 6  #what day does winter start?
+ADVENT_STARTS = 7
+CHRISTMAS = 8   #when is Christmas?
 
 #the current seasons. 
 #this is a dictionary that maps each season to when it begins
 #you can add more if you like.
-SEASONS = {0:'winter', LENT_START: 'lent', LENT_START+LENGTH_LENT:'easter', LENT_START+LENGTH_LENT+1:'summer', AUTUMN_STARTS:'autumn', CHRISTMAS: 'christmas'}
+SEASONS = {0:'winter', LENT_START: 'lent', LENT_START+LENGTH_LENT:'easter', LENT_START+LENGTH_LENT+1:'summer', ADVENT_STARTS:'advent', CHRISTMAS: 'christmas'}
 
-TURN_OFF_PROMPTS = 5
+TURN_OFF_PROMPTS = 5 #after how many years do the prompts stop??
 
 
 class Time:
@@ -88,6 +89,8 @@ class Time:
 			self.newYear(playerObj)
 			
 		if self.__totalDays > 5:
+			print("Since you have been a monk for a while now, by now you should know what to do. There will no longer be any prompts to guide you.")
+			next = input("Press enter to continue.")
 			playerObj.prompt = False
 			
 	def printDate(self):
