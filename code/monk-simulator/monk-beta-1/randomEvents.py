@@ -47,7 +47,7 @@ def nightRandomEvents(player, ghost):
 
 	randInt = randint(1,100)
 	
-	if ghost.massesSaid >= 1:
+	if ghost.massesSaid >= 1 and ghost.appearances > 0:
 		vision(ghost)	
 	elif randInt < 20:
 		vision(ghost)
