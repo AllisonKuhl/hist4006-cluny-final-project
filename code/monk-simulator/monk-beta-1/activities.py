@@ -67,12 +67,19 @@ class Activity():
 		elif "talk" in action or "say" in action:
 			print("You shouldn't be talking!")
 			player.increaseSins('talking')
+		elif action == "cry":
+			print("You sob profusely. Why is life so difficult?")
+			print("I feel ya, pal.")
 		#if go to church....
 		#if pray....
-		elif turns > 3:
+		elif turns > 3 and player.prompt == True:
 			print("You've wasted so much time that you've missed " + self.__name + "!")
 			self.skip = True
 			player.increaseSins("skipping")
+		elif turns > 2 and player.prompt == False:
+			print("Since you clearly don't know what to do, I guess we'll turn on the prompts again.")
+			print("Remember, right now it is time for", self.__name + "!")
+			player.prompt = True
 		elif action == 'help':
 			print("You don't know what to do? Type in where you'd like to go. If you don't know, try asking for a hint?")
 		elif action == 'hint' and turns > 1: 
@@ -136,7 +143,7 @@ class FreeTime(Activity):  #needs editing!!!
 				playerObject.changeSleepiness(-1)
 				playerObject.increaseSins("laziness")
 				break
-			elif user_input == "chat with other monks" or user_input == '4':
+			elif user_input == "chat with other monks" or user_input == '4' or user_input == "chat":
 				playerObject.talk()
 				break
 			
@@ -171,16 +178,16 @@ class FreeTime(Activity):  #needs editing!!!
 
 	
 		while True:			
-			response = input("> ")
-			if response == "the Bible" or response == "1":
+			response = input("> ").lower()
+			if response == "the bible" or response == "1" or response == "bible":
 				print("Good idea!")
 				player.decreasePenance(1)
 				break
-			elif response == "Ovid" or response == "2":
+			elif response == "ovid" or response == "2":
 				print("Scandalous!")
 				player.increaseSins("pagan literature")
 				break
-			elif response == "Saint's Lives" or "3":
+			elif response == "saint's lives" or response == "3":
 				print("Good idea! You read about the life of St. Maiolus, one of the great abbots of this monastary.")
 				player.decreasePenance(1)
 				break
@@ -333,7 +340,7 @@ class ChapterMeeting(Activity):
 				if sin == 'exit':
 					break
 				
-				if sin == "hint" and player.prompt == True:
+				if sin == "hint":
 					player.getHintSins()
 		
 
@@ -404,7 +411,7 @@ class Dinner(Activity):
 	def do_action(self, player):
 		print("It is time to eat!")
 		print("During dinner, somebody reads.")
-		randInt = randint(0,len(ruleExcerpts)-1)
+		randInt = randint(0,len(ruleExcerpts)-7)
 		print("\n",ruleExcerpts[randInt], ruleExcerpts[randInt+1], ruleExcerpts[randInt+2])
 		
 		if player.prompt == True:
