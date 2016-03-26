@@ -13,7 +13,7 @@ def normalRandomEvents(player):
 	randInt = randint(1,100)
 	
 	#for testing
-	randInt = 82
+	#randInt = 82
 	
 	if randInt < 20:
 		talkToMonks(player)	
@@ -25,7 +25,7 @@ def normalRandomEvents(player):
 	elif randInt < 70:
 		romance(player)
 	
-	elif randInt < 80 and player.getHoliness > 6 and player.getSins() < 5:
+	elif randInt < 80 and player.getHoliness() > 6 and player.getSins() < 5:
 		journey1(player)
 	
 	elif randInt < 83 and player.getSins() > 7:
@@ -37,7 +37,7 @@ def normalRandomEvents(player):
 	randInt = randint(1,100) 
 	if randInt <= player.getSickliness() * 2:
 		player.changeHealth(True) #makes player sick
-		print("You aren't feeling very well. You decide to spend the rest of the day in the infimirary. You sleep for the rest of the day.")
+		next = input("You aren't feeling very well. You decide to spend the rest of the day in the infimirary. You sleep for the rest of the day. Press enter to continue.")
 
 	
 	
@@ -108,7 +108,7 @@ def demonApparation(player):
 		print("However, due to your extreme holiness, the demon is unable to approach you.")
 	
 	elif player.getSins() > 10:
-		print('The demon laughs at you hysterically. "I know what you are!" it says, "You belong with us!" It howls and swoops down at you, engulfing you into his being.'"
+		print('The demon laughs at you hysterically. "I know what you\'ve done!" it says, "You belong with us!" It howls and swoops down at you, engulfing you into his being.')
 		player.alive == False #you don't get confession at this point.... :(
 		
 	else:
@@ -391,10 +391,10 @@ def romance2(player):
 	while True:
 		action = input("> ").lower()
 		
-		if action == '1':
+		if action == '1' or action == "god":
 			print('You discuss some Bible passages.')
 			break
-		if action == '2':
+		if action == '2' or action == "the boy":
 		
 			if player.romance2lvl == 3:
 				print("You ask him how he likes the monastary.")
