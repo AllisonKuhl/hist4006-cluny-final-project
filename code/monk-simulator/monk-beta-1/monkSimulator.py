@@ -7,8 +7,9 @@ from random import randint
 TO-DO
 
 - more romance
+- epic journey
 - interaction with abbot?
--finetune values
+- private mass?
 
 '''
 
@@ -42,7 +43,7 @@ compline = activities.Prayer("compline", PSALMS_SAID['compline'])
 
 
 DAY_ACTIVITIES = [getDressed, nocturnes, freeTime, matins, sleep, prime, freeTime, terce, chapterMeeting, freeTime, sext, nones, dinner, sleep, freeTime, vespers, compline, sleep]
-#DAY_ACTIVITIES = [sleep, freeTime] #for testing
+#DAY_ACTIVITIES = [sleep, freeTime, compline, dinner] #for testing
 
 
 
@@ -136,9 +137,9 @@ def sick_day(player):
 				print("Answer either yes or no!")
 			
 
-		if len(self.__sinsList > 0):
+		if len(player.getSinsList() > 0):
 			print("A monk comes by to see if you have any sins to confess.")
-			while len(self.__sinsList) > 0:
+			while len(player.getSinsList()) > 0:
 				print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
 				sin = input("What sins do you have to confess? \n > ")
 				self.confessSin(sin)
