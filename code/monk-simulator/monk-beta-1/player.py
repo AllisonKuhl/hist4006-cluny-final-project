@@ -126,7 +126,7 @@ class Player:
 			self.__sins -= sinDict[sin]
 			self.__penance += sinDict[sin]
 			
-		elif sin == exit:
+		elif sin == 'exit':
 			print("You should think more carefully next time about what you've done wrong.")
 			
 		elif sin in sinDict:
@@ -187,6 +187,9 @@ class Player:
 			speech = input("You say....\n> ")
 			speech = speech.lower()
 			
+			if speech == "":
+				print("Please enter a word.")
+			
 			if speech in hello:
 				print('Monk: \n"Hello,', self.getName() + '."')
 				
@@ -211,7 +214,7 @@ class Player:
 			elif speech in whatsUp:
 				print("Monk: \nI'm good, and you?")
 				
-			elif speech[len(speech)-1] == '?':
+			elif speech[len(speech)-1] == '?' and len(speech) > 1:
 				print("Monk: \nI don't know.")
 			
 			else:
