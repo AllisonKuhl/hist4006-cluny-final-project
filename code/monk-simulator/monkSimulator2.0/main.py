@@ -1,3 +1,19 @@
+'''
+Main Method
+
+COMING SOON!
+
+- random events
+- a super exciting plot!
+- actions that you can do in specific rooms
+- objects that you can interact with
+- time
+- more people
+- better map
+
+'''
+
+
 from AdventureInit import Abbey
 from player import Player
 
@@ -90,7 +106,7 @@ def play():
 					print("Type either 'n' or 'y'.")
 				
 		else:
-			print("Woops! I didn't understand that! If you are having trouble, please type 'help' for a list of commands.")
+			print("Woops! I didn't understand that! If you are having trouble, please type 'help' for a list of commands. If you are lost, please refer to the map in the manual. (P.S. manual not yet avaliable)")
 				
 				
 		
