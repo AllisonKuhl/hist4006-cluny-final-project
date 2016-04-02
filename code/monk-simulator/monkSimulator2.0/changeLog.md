@@ -34,3 +34,16 @@ March 29th
 -you can walk around the rooms and talk to people!
 
 
+April 2nd
+
+- added player class, time class and activity class
+
+-added activities for certain rooms
+
+-got it so that you can do the activities at certain times
+
+-added introduction
+
+- made map a little more elaborate
+
+
