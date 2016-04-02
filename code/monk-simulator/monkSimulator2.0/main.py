@@ -1,35 +1,38 @@
 '''
-Main Method
+To-Do
 
-COMING SOON!
-
-- random events
-- a super exciting plot!
-- actions that you can do in specific rooms
-- objects that you can interact with
-- time
-- more people
-- better map
+-Add different people and conversation and events for each day
+-make liturgy more interesting (and different for each one?)
+- add more people if more dialogue options
+- get the exposition monk to follow you around
 
 '''
-
-
 from AdventureInit import Abbey
-from player import Player
-
+from player import Character
+from timeClass import Time
+import dialogues
 cluny = Abbey()
 
 
-def play():
+def play(player):
 	action = ""
+	time = Time()
 	room = cluny.startRoom
 	
 	while action != "quit":
 		
 		
-		print(room.getDescription())
+		currentActivity = time.getCurrentActivityClass()
 		
-		#print(room.getDescription)
+		
+		if time.turns == 0:
+			print(chr(7) +"The bell rings, telling you that it is time for", currentActivity.name,  currentActivity.goToMessage)
+		
+		print(room.getDescription())	
+		
+	
+		if room.activity == currentActivity.name:
+			print(currentActivity.message)
 		
 		action = input("What would you like to do?\n> ").lower()
 
@@ -74,14 +77,20 @@ def play():
 			talked = False
 			for person in room.people:
 				if action == ("talk to " + person.name.lower()):
-					person.talkTo()
+					person.talkTo(time)
 					talked = True
 					break
 			if talked == False:
 				print("Talk to whom? I don't understand.")
 		
 		
-		
+		elif action == currentActivity.activation and action != "":
+			if currentActivity.name == room.activity:
+				currentActivity.do(player,time)
+				time.turns = -1
+				time.activityIndex += 1
+			else:
+				print("Now's not the time for that!")
 		
 		
 		
@@ -89,7 +98,7 @@ def play():
 		
 		elif action == "help":
 			print("Avaliable commands:")
-			print("go north, go east, go south, go west, use stairs, talk to (insert_persons_name_here), look at (insert object name here), help, quit")
+			print("go north, go east, go south, go west, use stairs, talk to (insert_persons_name_here), help, quit, ")
 			
 		elif action == "quit":
 			print("Are you sure you want to quit?!")
@@ -107,20 +116,20 @@ def play():
 				
 		else:
 			print("Woops! I didn't understand that! If you are having trouble, please type 'help' for a list of commands. If you are lost, please refer to the map in the manual. (P.S. manual not yet avaliable)")
-				
-				
-		
-play()		
+			
 	
-'''
+		time.endTurn()	
+		
+#play()		
+	
+
 def main():
 
 	name = input("What is your name?\n> ")
-	you = Player(name)
+	you = Character(name)
 	
-	print("Welcome,", you.getName() + "to the abbey of Cluny!")
-
-	play()
+	dialogues.intro(you)
+	
+	play(you)
 	
 main()
-'''
