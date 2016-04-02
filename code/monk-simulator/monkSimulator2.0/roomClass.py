@@ -1,5 +1,4 @@
-#creates a room
-
+from activityClass import Activity
 class Room():
 
 	def __init__(self, name, description):
@@ -12,13 +11,19 @@ class Room():
 		self.stairs = None
 		self.people = [] 
 		self.objects = []
-		
+		self.activity = ""
+		self.certainTime = False
+
 
 	def addRooms(self, north, east, south, west):
 		self.north = north
 		self.east = east
 		self.south = south
 		self.west = west
+	
+	def addActivity(self,activity, certainTimes):
+		self.activity = activity
+		self.certainTime = certainTimes
 		
 	def addPeople(self, people):
 		self.people = people
@@ -54,9 +59,7 @@ class Room():
 		
 		for person in self.people:
 			description += " " + person.name + " is here."
-			
-		for object in self.objects:
-			description += object.description
+	
 
 		return description
 		
