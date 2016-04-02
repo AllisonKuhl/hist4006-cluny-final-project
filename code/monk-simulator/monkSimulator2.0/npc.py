@@ -9,6 +9,6 @@ class Player():
 		self.romance = 0
 		self.message = message
 		
-	def talkTo(self):
+	def talkTo(self, time):
 		inp = input(self.name + " says: " + self.message)
 	
