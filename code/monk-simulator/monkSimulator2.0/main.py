@@ -1,16 +1,22 @@
 '''
 To-Do
 
--Add different people and conversation and events for each day
--make liturgy more interesting (and different for each one?)
-- add more people if more dialogue options
-- get the exposition monk to follow you around
+- Add people to different rooms
+- more plot
+- more conversation options
+- better liturgy
 
 '''
+
+
 from AdventureInit import Abbey
 from player import Character
 from timeClass import Time
 import dialogues
+from npc import John, demonAbbot
+
+from random import randint
+
 cluny = Abbey()
 
 
@@ -18,13 +24,39 @@ def play(player):
 	action = ""
 	time = Time()
 	room = cluny.startRoom
+	johnIsIn = room
+	john = John()
+	room.addPerson(john)
+	wido = demonAbbot(player)
+	widoThere = False
 	
 	while action != "quit":
-		
 		
 		currentActivity = time.getCurrentActivityClass()
 		
 		
+		#random events
+		rand = randint(0,100)
+		#demon abbot
+		if wido in room.people:
+			widoThere = True
+		if rand < 5:
+			if widoThere != True:
+				room.addPerson(wido)
+				
+		elif rand < 10:
+			dialogues.demon(player)
+		
+		
+		if widoThere == True and rand >= 10:
+				room.removePerson(wido)
+			
+		if currentActivity.name == room.activity:
+			room.addPerson(john)
+			johnIsIn.removePerson(john)
+			johnIsIn = room
+		
+
 		if time.turns == 0:
 			print(chr(7) +"The bell rings, telling you that it is time for", currentActivity.name,  currentActivity.goToMessage)
 		
@@ -77,7 +109,7 @@ def play(player):
 			talked = False
 			for person in room.people:
 				if action == ("talk to " + person.name.lower()):
-					person.talkTo(time)
+					person.talkTo(time, room)
 					talked = True
 					break
 			if talked == False:
@@ -128,7 +160,7 @@ def main():
 	name = input("What is your name?\n> ")
 	you = Character(name)
 	
-	dialogues.intro(you)
+	#dialogues.intro(you)
 	
 	play(you)
 	
