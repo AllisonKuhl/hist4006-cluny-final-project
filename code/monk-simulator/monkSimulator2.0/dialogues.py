@@ -60,7 +60,228 @@ def intro(player):
 	
 	
 	
+def fashionableMonk(self, time):
+
+	print("Hello brother. Is it not pious to suffer for God?")
+	print("yes/no")
+
+	while True:
+		answer = input("> ").lower()
+		print("Einhard says....")
+		if answer == '1' or answer == "yes":
+			print("I knew you would agree, for you appear wise. Gaze upon this, brother ...")
+			print("The monk shifts his monastic habit in order to reveal to you a tunic worn tight to his body and made of uncomfortable, scratching, animal hair.")
+			print("... Well? Is it not ascetic?")
+			while True:
+				print("yes or no")
+				answer = input("> ")
+				print("Einhard says...")
+				if answer == "yes":
+					print("Of course, as I am sure you are aware, I seek to imitate the most pious of men, those desert fathers who suffered in order to express their humility and devotion to our Lord. Now, I shall pray, for I seek to be closer to our Lord.")
+					break
+				elif answer == "no":
+					print("Ah ...")
+					print("The monk's mood clearly shifts from a calm enthusiasm to being somber")
+					print("... I am sorry that you do not see the virtue in my actions. Do have a good day. Bless you.")
+					break
+				else:
+					print("Answer either yes or no!")
+			break
+		elif answer == '2' or answer == 'no':
+			print("Do not be so ridiculous, brother. Here, look ...")
+			print("The monk reveals an uncomfortable hair shirt underneath his habit")
+			print("... I am suffering just as those most holy men who came long before us had, and in doing so I seek to express my devotion to our Lord. In fact, I shall pray right now.")
+			break
+		else: 
+			print("Answer either yes or no!")
 	
+def saintlyMonk(self,time):
+
+	if self.meetings == 0:
+		print("I like to read saint's lifes. They're really great. I want to try and be like a saint too! From now on, I'm going to act perfectly saint-like!")
+	if self.meetings == 1:
+		print("But wait, if I'm talking to you, doesn't that automatically disqualify me from being saint-like? Oh nooo!")
+	if self.meetings == 2:
+		print("In the life of Saint Odo, our ancient abbot of blessed memory, there is a story about two monks who were captured, but thanks to their diligent silence they were delivered from the snares of the enemy. That's why you won't catching me talking ever, nope, not ever!")
+	if self.meetings == 3:
+		print("Wait a minute, why am I still talking?")
+	if self.meetings > 3: 
+		print("Stop talking to me!!!!")
+	
+	
+	
+def oldNovice(self,time):
+
+	if time.day == 1:
+		print("I became a monk later in life. But even though I'm older than nearly everybody else here, they still outrank me because they became monks before me. And then they laugh at me because I don't know what to do. Bah! Heaven better be worth it!")
+
+		
+def sincereMonk(self,time):
+
+	if self.meetings == 0:
+		print("I'm the only son of a powerful family. But what use is power when it's so fleeting? You gain land and then its split between your children as soon as you die. All is vanity! But God's power never disappears. He is the source of all power. So even though my parents wanted me to become a knight, I decided to become a monk instead. The world passes away, but the one who does the will of God lives forever.")
+	if self.meetings > 0:
+		print("The world with its lust is passing away, but the one who does God's will remains forever")
+	
+
+def sleepyMonk(self,time):
+	if self.meetings == 0:
+		print("I don't like waking up early for vigils. I wish I could sleep all time.")
+	if self.meetings == 1:
+		print("I always get in trouble for sleeping during the liturgy. In the early services, a monk always walks around with a lantern to check if you are sleeping. Once see me, I have to take the lantern, since I'm always sleeping!")
+	if self.meetings > 1:
+		print("I'm tired...")
+	
+	
+def PontiusFollower(self,time):
+	
+	if time.day == 1:
+		print("Our abbot Pontius is really great!")
+	
+	if time.day == 2:
+		print("The pope told us that Pontius abdicated, so we need to elect a new abbot. But personally, I don't believe it. Pontius did nothing wrong. He would never leave us.")
+		
+	if time.day == 3:
+		print("I heard that Pontius might be coming to visit us soon! I'm so excited!")
+		
+		
+		
+		
+def grumpyMonk(self,time):
+	
+	if time.day == 1:
+		if self.meetings == 0:
+			print("Bah! Monks these days! Back when Abbot Hugh was alive, things were so much better! I'm telling you, monasticism is just going downhill from here. Back in my days, we actually followed the Rule of Benedict like we meant it!")
+			
+		if self.meetings == 1:
+			print("BAH!")
+	
+	if time.day == 2:
+		if self.meetings == 0:
+			print("So I hear we're going to elect a new abbot. Bah! There's no point! Things will never be as good as they were when Abbot Hugh was alive.")
+		if self.meetings >  0:
+			print("Monks these days are spoiled rotten!")
+			
+	if time.day == 3:
+		if self.meetings == 0:
+			print("Bah! Monks these days and their new-fangled ways! Back when Pontius was the abbot, you wouldn't see any of this nonsense.")
+		if self.meetings > 0:
+			print("Life was better when I was a kid!")
+			
+		
+def indecisiveMonk(self,time):
+	
+	if time.day == 1:
+		print("I think abbot Pontius is the best!")
+		
+	if time.day == 2:
+		print("I wonder who should be our new abbot? It's so difficult to decide!")
+		
+	if time.day == 3: 
+		print("Abbot Peter is the best!")
+		
+		
+		
+def humbleMonk(self,time):
+	print("Always remember that you are a worm.")
+	
+	
+def child1(self,time):
+	if time.day != 4:
+		if self.meetings == 0:
+			print("What are you doing in here? You sicko.")
+		if self.meetings == 1:
+			print(".....")
+		if self.meetings == 2:
+			print("....Are you trying to hit on me?")
+		if self.meetings == 3:
+			print("Pervert.")
+	
+	
+def child2(self,time):
+	if time.day != 4:
+		if self.meetings ==0:
+			print("My best friend and I used to always get in trouble for talking during our lessons. So we invented our own language using hand gestures. But then we got in trouble for using that too!")	
+		if self.meetings > 0:
+			print("Because we aren't supposed to talk, a lot of monks use hand gestures to communicate.")
+	
+def child3(self,time):
+	if time.day != 4:
+		print("My parents donated me to this monastary when I was little. Cluny is the only thing I know!")
+	
+def reprimandMonk(self,time):
+	if self.meetings == 0:
+		print("You shouldn't be talking. Remember that the tongue is a fire, a world of iniquity.")
+	if self.meetings == 1:
+		print("....What did I tell you last time?")	
+	if self.meetings == 2: 
+		print(".....")
+	if self.meetings > 2:
+		print("You shouldn't be talking.")
+
+
+def travellingMonk(self,time):
+	if time.day == 1:
+		print("Hey, I just got back to Cluny from a long trip. I was dealing with a conflict between the monastary and a local bishop. Cluny is supposed to be immune from their authority, but lately there's been a lot of conflicts. But Pontius is determined to uphold Cluny's authority in the face of these usurping bishops!")
+		print("1. Ask about immunity.")
+		print("2. Ask about trip")
+			
+		while True:
+			question = input("> ")
+			print(self.name, "says:")
+			if question == "1":
+				print("When Cluny was founded, we were given a charter that subjects us only to the Pope. So that means that lords or nobles or bishops or anybody other than the pope can't tell us what to do!")
+				break
+			if question == "2":
+				print("Cluny owns a lot of land in many different places. So I had to travel far away to deal with this problem.")
+				break
+			else:
+				print("Please enter a number between 0 and 3.")
+	if time.day == 2:
+		print("Hey, I just got back from Cluny from a long trip. I was dealing with a conflict with a local lord over some territory of Cluny. And you won't believe what happened!")
+		print("1. What happened?")
+		print("2. Ok.")
+	
+			while True:
+			question = input("> ")
+			print(self.name, "says:")
+			if question == "1":
+				print("Well! When the nefarious lord tried to defend his land, he fell over dead. Truly is Cluny defended by God!")
+				break
+			if question == "2":
+				print("Ok.")
+				break
+			else:
+				print("Please enter a number between 0 and 3.")
+	
+	if time.day == 3:
+		print("Hey. I just got back from visiting some of Cluny's territories far away. Unfortunately our income hasn't been as great recently, so we all need to put our weight together.")
+	
+	
+def miracleMonk(self,time):
+	print("Hey, I just heard the craziest thing.")
+	#miracle story
+	
+	if self.meetings > 1:
+		print("Want to hear some more miracles?")
+		print("yes/no")
+		while True:
+			answer = input("> ").lower()
+			print(self.name, "says: ")
+			if answer == "yes":
+				print("Okay!")
+				#randomized miracle
+			if answer == "no":
+				print("Well, your loss.")
+				if time.day >= 3:
+					print("At least the abbot likes my miracle stories. He says he'll write them down in a book one day!")
+	
+	
+def pilgrim(self,time):
+	print("I wanted to go to Rome, but Cluny was closer.")
+	
+
+
 	
 	
 	
