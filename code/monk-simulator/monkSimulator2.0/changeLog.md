@@ -47,3 +47,28 @@ April 2nd
 - made map a little more elaborate
 
 
+
+April 3rd
+
+-added dinner scenarios)
+
+-added helpful monk which follows you to the places you need to go but haven't finished his dialogue yet
+
+-added some more npc dialogue, plus found easier way to add individualized dialogues to each npc 
+
+
+
+April 4th 
+
+- added more dialogues (although they aren't yet implemented in the game)
+
+- added second floor
+
+- added some random events (demon, demon abbot)
+
+
+
+
+
+
+
