@@ -10,7 +10,7 @@ class Activity():
 		self.goToMessage = initMessage
 	
 
-	def do(self, player):
+	def do(self, player, time):
 		None
 
 			
@@ -79,7 +79,6 @@ class Sleep(Activity):
 class Eat(Activity):
 	def __init__(self):
 		Activity.__init__(self, "dinner", "The monks are preparing to eat. Maybe you should join them.", "join them", True, "You should get to the refectory.")
-		asleep = False
 
 	def do(self, player, time):
 		print("It is time to eat!")
@@ -99,15 +98,58 @@ class Eat(Activity):
 		print("\n",ruleExcerpts[randInt+3], ruleExcerpts[randInt+4], ruleExcerpts[randInt+5])
 		
 		
-		print("Your food today is some bread and vegetable soup.")
-		if player.prompt == True:
-			print("Do you eat the food?")
+		print("Your food today is some beans and bread.")
+		print("Do you eat the food?")
 			
 		while True:
 			action = input("> ").lower()
 			
 			if action == "eat the food" or action == "yes":
-				print("You eat the food. Delicious.")
+				if time.day == 1:
+					print("You eat some food. Delicious! But after a while your throat gets parched. You would like someone to pass the water, but you remember that you are not supposed to speak.")
+					print("1. Use hand gestures.")
+					print('2. Say "Water"')
+					print("3. Explain your predicament.")
+					
+					while True:
+						action = input("> ").lower()
+						
+						if action == "1":
+							print("Excellent choice! The monks immediately understand and pass you some water.")
+							break
+						if action == "2":
+							print("While this is acceptable, you receive a few glares from other monks for disrupting the reading.")
+							break 
+						if action == "3":
+							print("Every eye in the refectory turns to look at you! Silence is to be maintained at all cost in the refectory. As punishment, you are deprived of wine for the rest of the meal!")
+							player.increaseSin("talking")
+							break
+						else:
+							print("Please enter a number")
+				
+				elif time.day == 2:
+					print("You want to eat some bread, but the bread is juuuuust out of reach. What should you do?")					
+					print("1. Use hand gestures.")
+					print('2. Say "Bread"')
+					print("3. Explain your predicament.")
+					
+					while True:
+						action = input("> ").lower()
+						
+						if action == "1":
+							print("Excellent choice! The monks immediately understand and pass you some bread.")
+							break
+						if action == "2":
+							print("While this is acceptable, you receive a few glares from other monks for disrupting the reading.")
+							break 
+						if action == "3":
+							print("Every eye in the refectory turns to look at you! Silence is to be maintained at all cost in the refectory. As punishment, your meal is taken away!")
+							player.increaseSin("talking")
+							break
+						else:
+							print("Please enter a number")
+				
+				
 				break
 			elif action == "don't eat food" or action == "no":
 				print("You don't eat the food. How very ascetic of you.")
@@ -115,4 +157,45 @@ class Eat(Activity):
 				break
 			else:
 				print("I don't understand that.")
+				
+class Kitchen(Activity):
+	def __init__(self):
+		Activity.__init__(self, "kitchen work", "Some monks are preparing dinner.", "join them", True, "You should go to the kitchen")
+		asleep = False
+
+	def do(self, player, time):
+		print("It is your turn on kitchen duty. You enter the kitchen and are given the job of cutting up vegetables for dinner. Another monk is working beside you. Do you:")
+		print("1. Say Hello. ")
+		print("2. Work in Silence")
 		
+		while True:
+			action = input("> ")
+			if action == "1":
+				print("The kitchen worker smiles and says, “Hello! You look new here. I am so hungry. You know, technically the Rule only stipulates what it to be eaten in the refectory and we’re not in the refectory. I have some bacon left over from a meal we cooked for the sick. Would you like some?")
+				print("yes/no")
+				while True:
+					action = input("> ").lower()
+					if action == "yes":
+						print("You eat the piece of bacon and it is delicious. It reminds you of your life before the monastery. You want some more, but this is a grievous sin!!")
+						player.increaseSin("gluttony")
+						player.increaseSin("lust")
+						break
+					if action == "no":
+						print("Excellent choice! Meat excites lust and that could be very dangerous.")
+						break
+					else:
+						print("Please answer either yes or no.")
+				break
+			if action == "2":
+				print("How very proper of you! You continue to work in silence completing the task quickly.")
+				break
+			else:
+				print("Please enter 1 or 2")
+
+		print("After you finish, you join the other monks in the refectory for dinner.")
+
+				
+				
+				
+			
+			
