@@ -1,4 +1,4 @@
-
+from random import randint
 
 def intro(player):
 	
@@ -242,7 +242,7 @@ def travellingMonk(self,time):
 		print("1. What happened?")
 		print("2. Ok.")
 	
-			while True:
+		while True:
 			question = input("> ")
 			print(self.name, "says:")
 			if question == "1":
@@ -282,8 +282,60 @@ def pilgrim(self,time):
 	
 
 
+#monk who talks about praying for the dead
+
+
+#sick old monk
 	
+#cellerar
+
+
+def demonAbbot(self,time):
+	print('"Hello there brother! My name is Guido and I am from a far off monastary. I couldn\'t help but notice that this monastary is very different from my own. It\'s a lot more work here. You have to say psalms over and over, and you hardly ever get to do anything fun. Things are more exciting at my monastary. Why don\'t you come with me?"')
+	while True:
+		action = input("You say....\n> ")
+		if action.lower() == "yes":
+			print("You agree to leave with him. However, just as you are about to leave, the bell rings for the next activity. Howling the abbot melts into a deformed shape and runs away. Turns out he was a demon!")
+			player.increaseSins("giving in to temptation")
+			break
+
+		elif action.lower() == "no":
+			print("At your words, the abbot howls and leaves. As he runs through the halls, you notice that his shadow is deformed and he has a tail and horns... Good call!")
+			break
+		else:
+			print("I don't understand that! (reply yes or no)")
+
 	
+
+	
+def demon(player):
+	demons = ["a giant beast, with jowls dripping wet with saliva exposing teeth sharp as swords, with great hairy legs as big as logs.", "a short deformed being, like a human but not quite, with dark skin and a horribly ugly face.", "some kind of giant black bird, hovering above you glaring at you with burning red eyes.", "a dark swarthy being with horns on his head and slitted eyes."]
+
+	rand = randint(0,len(demons)-1)
+	
+	print("As you are walking through the halls of an abbey, suddenly you see a demon appearing in front of you! It looks like", demons[rand])
+	
+	print("What do you do?")
+	print("1. Pray to God")
+	print("2. Sprinkle holy water")
+	print("3. Confess your sins")
+	
+	while True:
+		action = input("> ")
+		if action == "1":
+			print("You say some of the psalms out loud, and at the name of God, the demon flees! Truly is God's power mighty!")
+			break
+		if action == "2":
+			print("You run and find some holy water and sprinkle it over the demon.")
+			if len(player.sinsList) == 0:
+				print("Howling in pain, the demon flees. Praise be to God!")
+				break
+			else:
+				print("But it doesn't work! This kind of demon is too powerful! You need to confess your sins.")
+		if action == "3":
+			print("You confess about the time you sinned by:", player.sinsList[0])
+			players.sinsList.remove(players.sinsList[0])
+			print("There is a blinding light and the demon howls and disappears.")
 	
 	
 	
