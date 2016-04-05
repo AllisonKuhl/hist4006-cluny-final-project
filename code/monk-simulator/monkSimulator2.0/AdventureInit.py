@@ -2,6 +2,7 @@ from roomClass import Room
 import activityClass
 from npc import Player
 import dialogues
+from objects import food,wine,altar,books,bed
 
 class Abbey():
 	def __init__(self):
@@ -9,9 +10,9 @@ class Abbey():
 		
 		#creates each room
 		church = Room("church", "You are in the sanctuary of the church. It's superflous heights and vapid flourishes are astounding. This is the currently the biggest church in Europe!")
-		galilee = Room("galilee", "You are in the galilee of the church. This is the front part of the church.")
+		galilee = Room("galilee", "You are in the apse of the church. The altar is further back.")
 		narthex = Room("narthex", "This is the entrance of the church.")
-		passage1 = Room("passage", "You are in a long passageway.")
+		passage1 = Room("passage", "You are in the galilee passageway")
 		court = Room("court", "You are in the abbot's court.")
 		chapel = Room("chapel", "You find yourself in a small chapel.")
 		atrium = Room("atrium", "You are in an atrium.")
@@ -27,7 +28,7 @@ class Abbey():
 		novitiat = Room("novitiat", "You are in the novice's dormitory. The room is filled with simple cots.")
 		latrines1 = Room("latrines", "You are in the latrines. It's kinda smelly.")
 		hall2 = Room("hall", "You are in a hallway.")
-		calefactorum = Room("calefactorm", "As you enter the room, you are suprised by the emenating heat. There is a large fire burning in the room.")
+		calefactorum = Room("calefactorum", "As you enter the room, you are suprised by the emenating heat. There is a large fire burning in the room.")
 		chapter = Room("chapter", "You are in chapter. This is where the monks meet to discuss important matters of business.")
 		
 		#upstairs
@@ -51,7 +52,7 @@ class Abbey():
 		cloister.addRooms(None,hall,atrium, passage1)
 		hall.addRooms(hall2,refectory,cellar,cloister)
 		hall2.addRooms(chapter, calefactorum, hall, passage2)
-		cellar.addRooms(hall,kitchen,None,cellar)
+		cellar.addRooms(hall,kitchen,None,atrium)
 		kitchen.addRooms(refectory,None,None,cellar)
 		refectory.addRooms(calefactorum,noviceCloister,kitchen,hall)
 		passage2.addRooms(infirmary,hall2,cloister,church)
@@ -60,6 +61,7 @@ class Abbey():
 		noviceCloister.addRooms(None, novitiat, None, refectory)
 		novitiat.addRooms(latrines1,None, None, noviceCloister)
 		latrines1.addRooms(None, None, novitiat, None)
+		calefactorum.addRooms(None,None, refectory, hall2)
 
 		#add stairs
 		hall2.stairs = dormitory
@@ -79,6 +81,14 @@ class Abbey():
 		novitiat.addActivity("sleep", True)
 		refectory.addActivity("dinner", True)
 		
+		#objects in room
+		
+		cellar.addObject(food)
+		cellar.addObject(wine)
+		chapel.addObject(altar)
+		dormitory.addObject(bed)
+		novitiat.addObject(bed)
+		
 		
 		self.startRoom = novitiat
 		
@@ -86,9 +96,25 @@ class Abbey():
 		
 		#add people
 		
+		noviceCloister.addPeople([Player("Nova",dialogues.oldNovice),Player("Raoul", dialogues.visitingMonk)])
 		
+		novitiat.addPeople([Player("Odisius", dialogues.sincereMonk), Player("Berard", dialogues.sleepyMonk)])
 		
+		cloister.addPeople([Player("Paulus", dialogues.pontiusFollower), Player("Cuthbert", dialogues.grumpyMonk), Player("Hidelbert", dialogues.yesMonk), Player("Adelmo", dialogues.informedMonk)])
 		
+		hall.addPerson(Player("Carolus", dialogues.travellingMonk))
+		
+		passage1.addPerson(Player("Marius", dialogues.reprimandMonk))
+		
+		church.addPerson(Player("Humbert", dialogues.humbleMonk))
+		
+		galilee.addPeople([Player("Gerard", dialogues.fashionableMonk), Player("Arthur", dialogues.pilgrim)])
+		
+		dormitory.addPeople([Player("Guy", dialogues.saintlyMonk), Player("Bertrand", dialogues.visitingMonk)])
+		
+		childDormitory.addPeople([Player("Etienne", dialogues.child1), Player("Benedict", dialogues.child2), Player("Timothy", dialogues.child3)])
+		
+		infirmary.addPeople([Player("Mathias", dialogues.retiredMonk), Player("Roland", dialogues.sickMonk), Player("Fulque", dialogues.insincereMonk)])
 		
 		
 		
