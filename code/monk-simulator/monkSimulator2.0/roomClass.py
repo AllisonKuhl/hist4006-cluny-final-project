@@ -30,13 +30,12 @@ class Room():
 		
 	def addPerson(self,person):
 		self.people.append(person)
+		
+	def removePerson(self, person):
+		self.people.remove(person)
 	
 	def addObject(self, object):
-		self.people.append(object)
-	
-	
-	def addObjects(self, objects):
-		self.objects = objects
+		self.objects.append(object)	
 	
 	def addStairs(self, room):
 		self.stairs = room
@@ -54,12 +53,15 @@ class Room():
 		if self.west != None:
 			description += " The " + self.west.name + " is to the west."
 			
+		for object in self.objects:
+			description += " " + object.description
+			
 		if self.stairs != None:
 			description += " There is a staircase in this room."
 		
 		for person in self.people:
 			description += " " + person.name + " is here."
-	
+		
 
 		return description
 		
