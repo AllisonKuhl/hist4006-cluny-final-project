@@ -69,6 +69,16 @@ April 4th
 
 
 
+April 5th
+
+- added objects to rooms that you can interact with
+
+- worked on dialogues some more
+
+- added people to rooms
+
+
+
 
 
 
