@@ -7,7 +7,8 @@ class Player():
 		
 	def talkTo(self,time, room):
 		print(self.name, "says:")
-		function(self,time)
+		self.specialConvo(self,time)
+		next = input("")
 		self.meetings += 1
 	
 	def addConversation(self,convo):
