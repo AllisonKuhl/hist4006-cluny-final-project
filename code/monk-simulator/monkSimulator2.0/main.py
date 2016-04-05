@@ -1,10 +1,8 @@
 '''
 To-Do
 
-- Add people to different rooms
-- more plot
-- more conversation options
-- better liturgy
+- write dialogue for days 2,3 and 4
+- add special events for each day
 
 '''
 
@@ -115,12 +113,10 @@ def play(player):
 			if talked == False:
 				print("Talk to whom? I don't understand.")
 		
-		
 		elif action == currentActivity.activation and action != "":
 			if currentActivity.name == room.activity:
 				currentActivity.do(player,time)
-				time.turns = -1
-				time.activityIndex += 1
+				time.resetTurn()
 			else:
 				print("Now's not the time for that!")
 		
@@ -129,8 +125,13 @@ def play(player):
 		
 		
 		elif action == "help":
+			str = "go north, go east, go south, go west, use stairs, talk to (insert_persons_name_here), help, quit"
+			
+			for object in room.objects:
+				str += ", " + object.init
+			
 			print("Avaliable commands:")
-			print("go north, go east, go south, go west, use stairs, talk to (insert_persons_name_here), help, quit, ")
+			print(str + ".")
 			
 		elif action == "quit":
 			print("Are you sure you want to quit?!")
@@ -147,7 +148,14 @@ def play(player):
 					print("Type either 'n' or 'y'.")
 				
 		else:
-			print("Woops! I didn't understand that! If you are having trouble, please type 'help' for a list of commands. If you are lost, please refer to the map in the manual. (P.S. manual not yet avaliable)")
+			if len(room.objects) != 0:
+				used = False
+				for object in room.objects:
+					if action == object.init:
+						object.use(player,time)
+						used == True
+				if used == False:
+					print("Woops! I didn't understand that! If you are having trouble, please type 'help' for a list of commands. If you are lost, please refer to the map in the manual. (P.S. manual not yet avaliable)")
 			
 	
 		time.endTurn()	
