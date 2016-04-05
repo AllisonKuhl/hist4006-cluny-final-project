@@ -2,11 +2,10 @@ import psalms
 import getRule
 
 class Activity():
-	def __init__(self, name, message, activation, certainTime, initMessage):
+	def __init__(self, name, message, activation, initMessage):
 		self.name = name
 		self.message = message
 		self.activation = activation
-		self.certainTime = certainTime 
 		self.goToMessage = initMessage
 	
 
@@ -16,7 +15,7 @@ class Activity():
 			
 class Prayer(Activity):
 	def __init__(self):
-		Activity.__init__(self, "liturgy", "The monks are preparing to do the liturgy. You should join them.", "join them", True, "You should get to the main church.")
+		Activity.__init__(self, "liturgy", "The monks are preparing to do the liturgy. You should join them.", "join them", "You should get to the main church.")
 
 		
 	def do(self, player, time):
@@ -27,7 +26,7 @@ class Prayer(Activity):
 
 class Sleep(Activity):
 	def __init__(self):
-		Activity.__init__(self, "sleep", "The monks are preparing to go to bed. Maybe you should join them.", "join them", True, "You should get to the dormitory.")
+		Activity.__init__(self, "sleep", "The monks are preparing to go to bed. Maybe you should join them.", "join them", "You should get to the dormitory.")
 		asleep = False
 
 		
@@ -78,7 +77,7 @@ class Sleep(Activity):
 			
 class Eat(Activity):
 	def __init__(self):
-		Activity.__init__(self, "dinner", "The monks are preparing to eat. Maybe you should join them.", "join them", True, "You should get to the refectory.")
+		Activity.__init__(self, "dinner", "The monks are preparing to eat. Maybe you should join them.", "join them", "You should get to the refectory.")
 
 	def do(self, player, time):
 		print("It is time to eat!")
@@ -194,8 +193,6 @@ class Kitchen(Activity):
 
 		print("After you finish, you join the other monks in the refectory for dinner.")
 
-				
-				
 				
 			
 			
