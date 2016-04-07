@@ -1,8 +1,10 @@
 '''
 To-Do
 
-- write dialogue for days 2,3 and 4
-- add special events for each day
+- fine-tune map a little more
+- get the map to initialize with different people depending on the day
+- more descriptions and dialogues
+- work on day 2 and 3
 
 '''
 
@@ -48,6 +50,7 @@ def play(player):
 		
 		if widoThere == True and rand >= 10:
 				room.removePerson(wido)
+				widoThere = False
 			
 		if currentActivity.name == room.activity:
 			room.addPerson(john)
@@ -56,7 +59,9 @@ def play(player):
 		
 
 		if time.turns == 0:
-			print(chr(7) +"The bell rings, telling you that it is time for", currentActivity.name,  currentActivity.goToMessage)
+			print(chr(7))
+			str = "The bell rings, telling you that it is time for " + currentActivity.name + ". " +   currentActivity.goToMessage
+			next = input(str)
 		
 		print(room.getDescription())	
 		
@@ -158,7 +163,7 @@ def play(player):
 					print("Woops! I didn't understand that! If you are having trouble, please type 'help' for a list of commands. If you are lost, please refer to the map in the manual. (P.S. manual not yet avaliable)")
 			
 	
-		time.endTurn()	
+		time.endTurn(player)	
 		
 #play()		
 	
