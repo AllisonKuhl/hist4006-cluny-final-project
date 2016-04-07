@@ -58,7 +58,7 @@ class demonAbbot():
 		Player.__init__(self,"Wido",None)
 		self.player = player
 	
-	def talkTo(self):
+	def talkTo(self, time, room):
 		print("Wido says....")
 		print('"Hello there brother! My name is Guido and I am from a far off monastary. I couldn\'t help but notice that this monastary is very different from my own. It\'s a lot more work here. You have to say psalms over and over, and you hardly ever get to do anything fun. Things are more exciting at my monastary. Why don\'t you come with me?"')
 		while True:
