@@ -80,6 +80,7 @@ class Abbey():
 		church.addActivity("liturgy", True)
 		novitiat.addActivity("sleep", True)
 		refectory.addActivity("dinner", True)
+		chapter.addActivity("chapter meeting", True)
 		
 		#objects in room
 		
@@ -90,7 +91,7 @@ class Abbey():
 		novitiat.addObject(bed)
 		
 		
-		self.startRoom = novitiat
+		self.startRoom = chapter
 		
 		
 		
@@ -116,7 +117,6 @@ class Abbey():
 		
 		infirmary.addPeople([Player("Mathias", dialogues.retiredMonk), Player("Roland", dialogues.sickMonk), Player("Fulque", dialogues.insincereMonk)])
 		
-		
-		
+		abbatialPalace.addPerson(Player("Pontius", dialogues.Pontius))
 	
 	
