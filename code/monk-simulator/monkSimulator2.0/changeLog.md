@@ -79,6 +79,13 @@ April 5th
 
 
 
+April 6th
+
+- wrote a bit more dialogue
+
+- wrote abbatial election scene (at least a rough draft?)
+
+- tested code, fixed a few bugs
 
 
 
