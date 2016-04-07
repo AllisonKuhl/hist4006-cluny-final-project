@@ -60,7 +60,7 @@ def play(player):
 
 		if time.turns == 0:
 			print(chr(7))
-			str = "The bell rings, telling you that it is time for " + currentActivity.name + ". " +   currentActivity.goToMessage
+			str = "The bell rings, telling you that it is time for " + time.getCurrentActivityName() + ". " +   currentActivity.goToMessage
 			next = input(str)
 		
 		print(room.getDescription())	
