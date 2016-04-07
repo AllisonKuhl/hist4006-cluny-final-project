@@ -1,5 +1,5 @@
 from random import randint
-
+from npc import Player
 def intro(player):
 	
 	print("Welcome,", player.name + ". You are a knight from a noble family. For many years you have been living a life of iniquity. You have pillaged the poor, attacked the defenceless and terrorized the innocent, doing in all ways whatever was right in your own eyes. But recently you've been rethinking your life. After a certain life-changin event, you have realized the errors of your way. Overcome with remorse for your past actions, you decided to renounce your previous life entirely and become a monk. And so, you arrive at the monastary of CLUNY, hopeful that the life of a monk will purify your past sins.")
@@ -391,11 +391,108 @@ def insincereMonk(self,time):
 
 
 
+def Pontius(self,time):
+	print("Hello. I am abbot Pontius.")
+		
+
+		
+		
+def youngPeter(self,time):
+	print("Hello, my name is Peter. I'm the prior of Vezelay.")
 
 
+		
+		
+def HughOfMarcigny(self,time):
+	if self.meetings == 0:
+		print("Eeeh? Wazzat? You'll have to speak up there, young'n, my hearing isn't what it used to be.")
+	elif self.meetings == 1:
+		print("Are you here for the election, young'n? My what a sight! I haven't seen so many monks since the day abbot Pontius was elected. May God grant us the wisdom and foresight to choose our new abbot.")
+	elif self.meetings == 2:
+		print("Eeh? Wazzat? Sorry I dozed off there for a second.")
+	elif self.meetings > 2: 
+		print("Eeeh? Wazzat? You'll have to speak up there, young'n, my hearing isn't what it used to be.")
+
+		
+		
+def prior1(self,time):
+	if self.meetings == 0:
+		print("I am just a poor humble sinner truly unworthy of becoming abbot. However, if I DID become the abbot, I think... I'd do a pretty good job!")
+	if self.meetings == 1:
+		print("I'm not saying that I should be the next abbot, because that's not very humble and I'm a very humble guy. I'm just saying, that if, by God's grace, I was chosen to be abbot, I would definetely do an outstanding job.")
+	if self.meetings > 1:
+		print("I should be the next abbot. I mean! Um... Although nothing but a poor miserable sinner, if by God's infinite mercy he were to bless me with the position of abbot.... Um.... Okay look, just vote for me.")
+	
+def prior2(self,time):
+		print("It's a lot of work being the abbot of Cluny. I was thinking about contending for the position but.... Who needs all that responsibility!")
 
 
+def ponsVoter(self,time):
 
+	print("This election is a sham.")
+	print("1. Why is that?")
+	print("2. Who should be the next abbot?")
+	while True:
+		question = input("> ")
+		print(self.name, "says:")
+		if question == "1":
+			print("Pontius is our abbot. Why would we need a new one?")
+			break
+		elif question == "2":
+			print("Pontius is still our abbot. But if I had to choose someone... Maybe Hugh of Marcigny, since he's old. He might die any minute, and then Pontius can return and take his rightful place as abbot.")
+			break
+		else:
+			print("Please enter either 1 or 2")
+		
+
+def abbatialElection(time):
+	
+	people = [Player("Hugh",HughOfMarcigny), Player("Peter", youngPeter), Player("Ivo", prior1), Player("Reynard",prior2),Player("Paulus",ponsVoter)]	
+	
+	print("As you enter the room, you find yourself surrounded by many different people.")
+	print("John says:")
+	next = input("Hello! Glad to see you made it. This is pretty exciting, isn't it? I wonder who our new abbot will be? If you want to discuss things with anyone, now's the time. Talk to the prior when you're ready to begin.")
+
+	while True:
+		print("You are in the chapter and it is full of monks from all over Eruope. Peter is here. Hugh is here. Paulus is here. Ivo is here. Reynard is here. Paulus is here. The prior is here.")
+		next = input("What do you want to do? \n> ").lower()
+		
+		
+		if next == "talk to the prior" or next == "talk to prior": 
+			break 
+		talked = False
+		for person in people:
+			if next == "talk to " + person.name.lower():
+				person.talkTo(time, None)
+				talked = True
+		if talked == False:
+			print("You can't do that!")			
+	
+	print("The prior says:")
+	print("Alright, now we will choose our next abbot. Does anyone have any suggestions?")
+	print("1. I have a suggestion.")
+	print("2. Say nothing")
+	
+	while True: 
+		action = input("> ")
+		if action == "1":
+			print("Who is your suggestion?")
+			suggestion = input("You suggest: > ")
+			print("You suggest that", suggestion, "should be the new abbot. The monks caarefully consider your proposition.")
+			break
+		if action == "2":
+			print("You decide to say nothing, since you have no opinion one way or the other.")
+			break
+		else:
+			print("Answer either 1 or 2!")
+		
+		print("The monks argue for a while about who should be the next abbot. Eventually, they reach an agreement.")
+		next = input("The new abbot will be...........")
+		next = input("..........")
+		print("Hugh of Marcigny!!!")
+			
+		print("This decided, the monks go their seperate ways.")
+			
 
 
 
@@ -451,10 +548,11 @@ def demon(player):
 		if action == "3":
 			if len(player.sinsList) != 0:
 				print("You confess about the time you sinned by:", player.sinsList[0])
-				players.sinsList.remove(players.sinsList[0])
+				player.sinsList.remove(player.sinsList[0])
 				print("There is a blinding light and the demon howls and disappears.")
-			else:
-				print("That's not an option!")
+				break
+		else:
+			print("That's not an option!")
 	
 	
 	
