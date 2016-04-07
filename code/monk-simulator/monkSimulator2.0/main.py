@@ -173,7 +173,7 @@ def main():
 	name = input("What is your name?\n> ")
 	you = Character(name)
 	
-	#dialogues.intro(you)
+	dialogues.intro(you)
 	
 	play(you)
 	
