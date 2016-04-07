@@ -1,5 +1,6 @@
 import psalms
 import getRule
+from dialogues import abbatialElection
 
 class Activity():
 	def __init__(self, name, message, activation, initMessage):
@@ -159,8 +160,7 @@ class Eat(Activity):
 				
 class Kitchen(Activity):
 	def __init__(self):
-		Activity.__init__(self, "kitchen work", "Some monks are preparing dinner.", "join them", True, "You should go to the kitchen")
-		asleep = False
+		Activity.__init__(self, "kitchen work", "Some monks are preparing dinner.", "join them","You should go to the kitchen")
 
 	def do(self, player, time):
 		print("It is your turn on kitchen duty. You enter the kitchen and are given the job of cutting up vegetables for dinner. Another monk is working beside you. Do you:")
@@ -196,3 +196,59 @@ class Kitchen(Activity):
 				
 			
 			
+
+class Chapter(Activity):
+	def __init__(self):
+		Activity.__init__(self, "chapter meeting", "The monks have gathered together to meet. Maybe you should join them.", "join them", "You should go to the chapter room.")
+		asleep = False
+
+	def do(self, player, time):	
+		if time.day != 2:
+			self.confess(player, time)
+		else:
+			abbatialElection(time)
+	
+	
+	def confess(self, player, time):
+		
+		sins = player.sinsList
+		
+		print("\n Do you have any sins to confess? y or n")
+		
+		while True:
+			userInput = input("> ").lower()
+			
+			if userInput == 'y':
+				break 
+			elif userInput == 'n':
+				if player.sins == 0:
+					break
+				else:
+					print("I don't think that's the case... But okay...")
+					break		
+			else:
+				print("I don't understand that! Please type either y or n")
+					
+		if userInput == "y":
+			
+			if len(player.sinsList) == 0:
+				print("You don't have any sins to confess!")
+							
+			while len(player.sinsList) > 0:
+				print("Type exit to exit and hint for a hint if you can't remember what sins you've done.")
+				sin = input("What sins do you have to confess? \n > ")
+						
+				#times = input("How many times have you done this?") 
+				#should I have it so you can decrease it multiple times at once?? +.+?
+				player.confessSin(sin)	
+
+				if len(player.sinsList) == 0:
+					print("Good work! You've confessed all your sins!")
+					player.increaseHoliness()
+						
+				if sin == 'exit':
+					break
+				
+				if sin == "hint":
+					player.getHintSins()
+		
