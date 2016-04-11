@@ -62,6 +62,7 @@ class Abbey():
 		novitiat.addRooms(latrines1,None, None, noviceCloister)
 		latrines1.addRooms(None, None, novitiat, None)
 		calefactorum.addRooms(None,None, refectory, hall2)
+		chapter.addRooms(None,hall2,None,None,None)
 
 		#add stairs
 		hall2.stairs = dormitory
