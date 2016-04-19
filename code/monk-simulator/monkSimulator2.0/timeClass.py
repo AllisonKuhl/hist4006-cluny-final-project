@@ -59,8 +59,8 @@ class Time():
 		
 	def endTurn(self, player):
 		
-		print("INDEX = ", self.activityIndex)
-		print("DAY NUMBER = ", self.day)
+		#print("INDEX = ", self.activityIndex)
+		#print("DAY NUMBER = ", self.day)
 		
 		self.totalTurns += 1
 		self.turns += 1
