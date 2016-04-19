@@ -1,10 +1,10 @@
 '''
 To-Do
 
-- fine-tune map a little more
-- get the map to initialize with different people depending on the day
-- more descriptions and dialogues
-- work on day 2 and 3
+- add more dialogues and plot
+- change up people and activities and starting place depending on the day
+- fix up map
+- graphics? (someday)
 
 '''
 
@@ -33,8 +33,6 @@ def play(player):
 	while action != "quit":
 		
 		currentActivity = time.getCurrentActivityClass()
-		
-		
 		#random events
 		rand = randint(0,100)
 		#demon abbot
@@ -65,7 +63,8 @@ def play(player):
 		
 		print(room.getDescription())	
 		
-	
+		room.visited = True
+		
 		if room.activity == currentActivity.name:
 			print(currentActivity.message)
 		
@@ -126,11 +125,12 @@ def play(player):
 				print("Now's not the time for that!")
 		
 		
-		
+		elif action == "look around":
+			print(room.description)
 		
 		
 		elif action == "help":
-			str = "go north, go east, go south, go west, use stairs, talk to (insert_persons_name_here), help, quit"
+			str = "look around, go north, go east, go south, go west, use stairs, talk to (insert_persons_name_here), help, quit"
 			
 			for object in room.objects:
 				str += ", " + object.init
@@ -162,7 +162,7 @@ def play(player):
 				if used == False:
 					print("Woops! I didn't understand that! If you are having trouble, please type 'help' for a list of commands. If you are lost, please refer to the map in the manual. (P.S. manual not yet avaliable)")
 			
-	
+		
 		time.endTurn(player)	
 		
 #play()		
