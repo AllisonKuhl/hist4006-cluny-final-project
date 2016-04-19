@@ -13,6 +13,7 @@ class Room():
 		self.objects = []
 		self.activity = ""
 		self.certainTime = False
+		self.visited = False
 
 
 	def addRooms(self, north, east, south, west):
@@ -42,7 +43,12 @@ class Room():
 		
 	def getDescription(self): #returns string representation of room
 		
-		description = self.description
+		description = ""
+		
+		if self.visited == False:
+			description += self.description
+		else:
+			description += "You are in the " + self.name + "."
 		
 		if self.north != None:
 			description += " The " + self.north.name + " is to the north."
