@@ -1,4 +1,4 @@
-Change log
+#Change log
 
 March 23rd 
 
@@ -89,3 +89,11 @@ April 6th
 
 
 
+
+April 14th
+
+- changed room descriptions a bit
+
+- gives a more detailed description when you first visit the room, and then afterwards just tells you what room you are in. 
+
+- you can now look around and get a more detailed room description as well
