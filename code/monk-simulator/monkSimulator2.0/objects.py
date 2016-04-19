@@ -78,5 +78,5 @@ altar = Object("altar", "pray", "There is a altar by which you could pray.", pra
 
 books = Object("book", "read book", "The library is filled with interesting books you could read", read)
 
-bed = Object("bed", "lie down", "There are beds you can lie down in.", sleep)
+bed = Object("bed", "use bed", "There are beds you can lie down in.", sleep)
 
