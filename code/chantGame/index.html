@@ -1,0 +1,151 @@
+<!doctype html>
+<title>Awesome Game!</title>
+
+<canvas width="600" height="400" style="border: 1px dashed black"></canvas>
+
+<script src="requestAnimationFramePolyfill.js"></script>
+<script>
+
+
+//The canvas and its drawing surface
+var canvas = document.querySelector("canvas");
+var ctx = canvas.getContext("2d");
+
+//player object
+var player =
+{
+  x: 100,
+  y: 50,
+  width: 30,
+  height: 30,
+
+};
+
+var playZone = {
+	
+ x:98,
+ y:48,
+ width:34,
+ height:94
+
+}
+
+var notes = [];
+
+function musicObject() {
+	this.x = canvas.width;
+	this.y = 50 + 30*Math.floor((Math.random() * 3));
+	this.width = Math.floor((Math.random() * 80+30));
+	this.height = 30;
+}
+
+notes.push(new musicObject());
+
+
+//Arrow key codes
+var SPACE = 32;
+var UP = 38;
+var DOWN = 40;
+
+window.addEventListener("load", loadHandler, false);
+
+
+window.addEventListener("keydown", function(event)
+{
+  switch(event.keyCode)
+  {
+    case UP:
+	    player.y -=player.height;
+	    break;
+	  
+	case DOWN:
+	    player.y +=player.height;
+	    break;
+	case SPACE:
+		break;
+  }
+}, false);
+
+
+function loadHandler()
+{ 
+  update();
+}
+
+function update()
+{
+  //The animation loop
+  requestAnimationFrame(update, canvas);
+  
+  for (i = 0;i<notes.length;i++){
+	notes[i].x-=1;
+  }
+  
+  
+  //makes sure we aren't out of bounds
+  if (player.y < playZone.y)
+  {
+    player.y = playZone.y+2;
+  }
+  if (player.y + player.height > playZone.y+playZone.height)
+  {
+    player.y = playZone.y+playZone.height - player.height-2;
+  }
+  
+  render();
+}
+
+
+function render()
+{ 
+  //Clear the previous animation frame
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 
+  
+  
+
+  for(i=0;i < notes.length;i++){
+      var note = notes[i];
+	  ctx.beginPath();
+	  ctx.rect(note.x,note.y,note.width,note.height);
+	  if (note.y == 50){
+		 ctx.fillStyle = "red";
+	  }else if (note.y == 80){
+		 ctx.fillStyle = "blue";
+	  }else if (note.y == 110){
+		 ctx.fillStyle = "yellow";
+	  }	 
+	  ctx.fill();
+  }
+
+	//if first element is going off the screen
+	//remove that element
+	if (notes[0].x+notes[0].width < 0){
+		notes.shift();
+	}
+	
+	//once the last element has gone past the end
+	//we can add a new one!
+	if (notes[notes.length-1].x+notes[notes.length-1].width<canvas.width){
+	   notes.push(new musicObject());
+	   if (notes[notes.length-2].y != notes[notes.length-1].y){
+			notes[notes.length-1].x += 5;
+	   }
+	}
+  
+  ctx.beginPath();
+  ctx.lineWidth="1";
+  ctx.strokeStyle="black";
+  ctx.rect(player.x,player.y,player.width,player.height); 
+  ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.lineWidth="4";
+  ctx.strokeStyle="black";
+  ctx.rect(playZone.x,playZone.y,playZone.width,playZone.height); 
+  ctx.stroke();
+  
+ 
+}
+
+</script>
