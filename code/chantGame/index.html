@@ -11,6 +11,8 @@
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
 
+var score = 0;
+
 //player object
 var player =
 {
@@ -37,6 +39,17 @@ function musicObject() {
 	this.y = 50 + 30*Math.floor((Math.random() * 3));
 	this.width = Math.floor((Math.random() * 80+30));
 	this.height = 30;
+	 if (this.y == 50){
+		this.color = "red";
+		this.pressedColor = "darkred";
+	  }else if (this.y == 80){
+		this.color = "blue";
+		this.pressedColor = "darkblue";
+	  }else{
+		this.color = "yellow";
+		this.pressedColor = "gold";
+	  }	
+	this.currentColor = this.color;
 }
 
 notes.push(new musicObject());
@@ -47,8 +60,17 @@ var SPACE = 32;
 var UP = 38;
 var DOWN = 40;
 
-window.addEventListener("load", loadHandler, false);
+var spacePressed = false;
+var goodStart = false;
+var goodEnd = false;
+var activeNote = notes[0];
+var message = "";
 
+
+
+var image = new Image();
+image.addEventListener("load", loadHandler, false);
+image.src = "background2.png";
 
 window.addEventListener("keydown", function(event)
 {
@@ -62,8 +84,38 @@ window.addEventListener("keydown", function(event)
 	    player.y +=player.height;
 	    break;
 	case SPACE:
+		message = "";
+		if (activeNote.y == player.y && activeNote.x>playZone.x && activeNote.x<playZone.x+(playZone.width/2)){
+			goodStart = true;
+			message = "Good!";
+		}
+		spacePressed = true;
 		break;
   }
+}, false);
+
+window.addEventListener("keyup", function(event)
+{
+  switch(event.keyCode)
+  {
+	case SPACE:
+		
+		message = "";
+		if (activeNote.y == player.y && activeNote.x+activeNote.width <playZone.x+playZone.width && activeNote.x+activeNote.width>playZone.x+(playZone.width/2)){		
+			goodEnd = true;
+		}
+		
+		if (goodEnd && goodStart){
+			message = "Perfect!"
+			score+=10;
+		}
+		goodEnd = false;
+		goodStart = false;
+		
+		spacePressed = false;
+		break;
+  }
+   
 }, false);
 
 
@@ -78,10 +130,28 @@ function update()
   requestAnimationFrame(update, canvas);
   
   for (i = 0;i<notes.length;i++){
-	notes[i].x-=1;
+  
+	var note = notes[i];
+	
+
+	 //checks to see if it's in the zone
+	if (note.x <= playZone.x+playZone.width&& note.x+note.width >= playZone.x){
+		
+		activeNote = note;
+		//if we are in the right place and the space bar is pressed
+		//we get points!
+		if (note.y == player.y && spacePressed == true){
+			score+=.02;
+			note.currentColor = note.pressedColor;
+		}else{
+			note.currentColor = note.color;                                         
+		}
+	}
+	
+	//keeps the notes moving
+	note.x-=1;
   }
-  
-  
+    
   //makes sure we aren't out of bounds
   if (player.y < playZone.y)
   {
@@ -101,20 +171,19 @@ function render()
   //Clear the previous animation frame
   ctx.clearRect(0, 0, canvas.width, canvas.height);
  
-  
+  ctx.drawImage
+      (
+        image,0,0,canvas.width,canvas.height ,0,0,canvas.width,canvas.height
+      ); 
+    
   
 
   for(i=0;i < notes.length;i++){
       var note = notes[i];
 	  ctx.beginPath();
 	  ctx.rect(note.x,note.y,note.width,note.height);
-	  if (note.y == 50){
-		 ctx.fillStyle = "red";
-	  }else if (note.y == 80){
-		 ctx.fillStyle = "blue";
-	  }else if (note.y == 110){
-		 ctx.fillStyle = "yellow";
-	  }	 
+	  ctx.fillStyle = note.currentColor;
+	  
 	  ctx.fill();
   }
 
@@ -128,23 +197,38 @@ function render()
 	//we can add a new one!
 	if (notes[notes.length-1].x+notes[notes.length-1].width<canvas.width){
 	   notes.push(new musicObject());
+	   //if notes are not the same colour
 	   if (notes[notes.length-2].y != notes[notes.length-1].y){
-			notes[notes.length-1].x += 5;
+			notes[notes.length-1].x += 10;
+	   }else{
+		   //merge notes of the same colour into one
+		   notes[notes.length-2].width+=notes[notes.length-1].width;
+		   notes.pop();
 	   }
 	}
   
+  //player
   ctx.beginPath();
-  ctx.lineWidth="1";
+  ctx.lineWidth="4";
   ctx.strokeStyle="black";
   ctx.rect(player.x,player.y,player.width,player.height); 
   ctx.stroke();
   
+  //zone
   ctx.beginPath();
-  ctx.lineWidth="4";
+  ctx.lineWidth="1";
   ctx.strokeStyle="black";
   ctx.rect(playZone.x,playZone.y,playZone.width,playZone.height); 
   ctx.stroke();
   
+  //score
+  ctx.font = "normal bold 26px Helvetica";
+  ctx.fillStyle = "#000";
+  ctx.textBaseline = "top";
+  ctx.fillText("Score:" + Math.floor(score),0,0);
+  
+  ctx.font = "normal 15px Helvetica";
+  ctx.fillText(message,150,150);
  
 }
 
