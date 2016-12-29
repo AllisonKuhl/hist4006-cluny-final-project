@@ -1,5 +1,5 @@
 <!doctype html>
-<title>Awesome Game!</title>
+<title>Let's Sing Psalms!</title>
 
 <canvas width="600" height="400" style="border: 1px dashed black"></canvas>
 
@@ -32,12 +32,22 @@ var playZone = {
 
 }
 
+var letters = ['G','L','O','R','I','A'," ","I","N"," ","E","X","C","E","L","S","I","S", " ","D","E","O"," "];
+
 var notes = [];
 
-function musicObject() {
+function musicObject(letter) {
 	this.x = canvas.width;
 	this.y = 50 + 30*Math.floor((Math.random() * 3));
-	this.width = Math.floor((Math.random() * 80+30));
+	
+	this.letter = letter;
+	
+	if (letter == "A" || letter == "O" || letter == "E"){	
+		this.width = Math.floor((Math.random() * 80+30));
+	} else {
+		this.width = 30;
+	}
+	
 	this.height = 30;
 	 if (this.y == 50){
 		this.color = "red";
@@ -52,71 +62,51 @@ function musicObject() {
 	this.currentColor = this.color;
 }
 
-notes.push(new musicObject());
+var index = 0;
+
+//adds new music object
+notes.push(new musicObject(letters[index]));
 
 
-//Arrow key codes
+var activeNote = 
+{
+x:undefined,
+y:undefined
+}
+
+
+
+//key codes
 var SPACE = 32;
-var UP = 38;
-var DOWN = 40;
-
-var spacePressed = false;
-var goodStart = false;
-var goodEnd = false;
-var activeNote = notes[0];
-var message = "";
-
-
+var ENTER = 13;
 
 var image = new Image();
 image.addEventListener("load", loadHandler, false);
 image.src = "background2.png";
 
+
+//use space to go up
+//enter to go down
+
 window.addEventListener("keydown", function(event)
 {
-  switch(event.keyCode)
-  {
-    case UP:
+    if (event.keyCode == SPACE){
 	    player.y -=player.height;
-	    break;
-	  
-	case DOWN:
-	    player.y +=player.height;
-	    break;
-	case SPACE:
-		message = "";
-		if (activeNote.y == player.y && activeNote.x>playZone.x && activeNote.x<playZone.x+(playZone.width/2)){
-			goodStart = true;
-			message = "Good!";
+	}else if (event.keyCode == ENTER){
+		player.y +=player.height;
+	}else if (event.keyCode >= 65 && event.keyCode <= 90){
+		
+		if (activeNote.y == player.y && activeNote.letter == String.fromCharCode(event.keyCode)){
+			score+=1;		
 		}
-		spacePressed = true;
-		break;
-  }
+		
+		
+	}
+	
+	//String.fromCharCode(event.keyCode));
+
 }, false);
 
-window.addEventListener("keyup", function(event)
-{
-  switch(event.keyCode)
-  {
-	case SPACE:
-		
-		message = "";
-		if (activeNote.y == player.y && activeNote.x+activeNote.width <playZone.x+playZone.width && activeNote.x+activeNote.width>playZone.x+(playZone.width/2)){		
-			goodEnd = true;
-		}
-		
-		if (goodEnd && goodStart){
-			message = "Perfect!"
-			score+=10;
-		}
-		goodEnd = false;
-		goodStart = false;
-		
-		spacePressed = false;
-		break;
-  }
-   
-}, false);
 
 
 function loadHandler()
@@ -130,29 +120,20 @@ function update()
   requestAnimationFrame(update, canvas);
   
   for (i = 0;i<notes.length;i++){
-  
-	var note = notes[i];
+    var note = notes[i];
 	
-
-	 //checks to see if it's in the zone
-	if (note.x <= playZone.x+playZone.width&& note.x+note.width >= playZone.x){
-		
-		activeNote = note;
-		//if we are in the right place and the space bar is pressed
-		//we get points!
-		if (note.y == player.y && spacePressed == true){
-			score+=.02;
-			note.currentColor = note.pressedColor;
-		}else{
-			note.currentColor = note.color;                                         
-		}
+	if (note.x<playZone.x+playZone.width && note.x+note.width>playZone.x){
+		activeNote = note;	
 	}
+	
+	
 	
 	//keeps the notes moving
 	note.x-=1;
   }
     
-  //makes sure we aren't out of bounds
+  
+   //makes sure we aren't out of bounds
   if (player.y < playZone.y)
   {
     player.y = playZone.y+2;
@@ -161,7 +142,7 @@ function update()
   {
     player.y = playZone.y+playZone.height - player.height-2;
   }
-  
+	
   render();
 }
 
@@ -171,6 +152,7 @@ function render()
   //Clear the previous animation frame
   ctx.clearRect(0, 0, canvas.width, canvas.height);
  
+  //draws the background
   ctx.drawImage
       (
         image,0,0,canvas.width,canvas.height ,0,0,canvas.width,canvas.height
@@ -182,9 +164,14 @@ function render()
       var note = notes[i];
 	  ctx.beginPath();
 	  ctx.rect(note.x,note.y,note.width,note.height);
-	  ctx.fillStyle = note.currentColor;
-	  
+	  ctx.fillStyle = note.currentColor;  
 	  ctx.fill();
+	  
+	   ctx.font = "normal bold 26px Helvetica";
+	   ctx.fillStyle = "#000";
+       ctx.textBaseline = "top";
+       ctx.fillText(note.letter,note.x+5,note.y);
+	  
   }
 
 	//if first element is going off the screen
@@ -196,14 +183,18 @@ function render()
 	//once the last element has gone past the end
 	//we can add a new one!
 	if (notes[notes.length-1].x+notes[notes.length-1].width<canvas.width){
-	   notes.push(new musicObject());
+	   index+=1;
+	   if (letters[index%letters.length] == " "){
+		index +=1;
+	    notes.push(new musicObject(letters[index%letters.length]));
+		notes[notes.length-1].x+=60;
+	   }else{
+	     notes.push(new musicObject(letters[index%letters.length]));
+	   }
+	  
 	   //if notes are not the same colour
 	   if (notes[notes.length-2].y != notes[notes.length-1].y){
-			notes[notes.length-1].x += 10;
-	   }else{
-		   //merge notes of the same colour into one
-		   notes[notes.length-2].width+=notes[notes.length-1].width;
-		   notes.pop();
+			notes[notes.length-1].x += 15;
 	   }
 	}
   
@@ -227,8 +218,6 @@ function render()
   ctx.textBaseline = "top";
   ctx.fillText("Score:" + Math.floor(score),0,0);
   
-  ctx.font = "normal 15px Helvetica";
-  ctx.fillText(message,150,150);
  
 }
 
